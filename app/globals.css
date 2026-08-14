@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Audel — brand system (from the app logo: green #1E6051 + cream #FFF7E9)
+   Light-only "scheduler" palette: green and cream, primarily.
+   ============================================================ */
+
+@theme {
+  /* Brand green (the logo green) + supporting shades */
+  --color-brand: #1e6051;
+  --color-brand-strong: #164a3f;
+  --color-brand-deep: #133c33;
+  --color-brand-bright: #2c7a66;
+  --color-mint: #4fae93;
+  --color-mint-soft: #7fc9b2;
+
+  /* Cream, straight from the logo mark */
+  --color-cream: #fff7e9;
+  --color-cream-2: #f4eede;
+
+  /* Functional accents (streaks / over-budget), kept from the app */
+  --color-honey: #b9871f;
+  --color-honey-light: #e3be5e;
+  --color-copper: #b0562f;
+  --color-copper-light: #d1855f;
+
+  /* Cream reads as the "on-green" ink */
+  --color-on-brand: #fff7e9;
+
+  /* Light surfaces */
+  --color-canvas: #f5f3ec;
+  --color-canvas-2: #eef1ea;
+  --color-card: #ffffff;
+  --color-card-2: #f4f1e8;
+  --color-ink: #16332b;
+  --color-muted: #4d605a;
+  --color-faint: #8a968f;
+  --color-line: rgba(20, 53, 42, 0.1);
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --radius-card: 22px;
+  --radius-chip: 12px;
+
+  --shadow-card: 0 1px 2px rgba(19, 60, 51, 0.05), 0 18px 40px -24px rgba(19, 60, 51, 0.24);
+  --shadow-float: 0 40px 90px -40px rgba(19, 60, 51, 0.5), 0 8px 24px -12px rgba(19, 60, 51, 0.22);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+  /* aliases used by the atmosphere layers */
+  --ink: #16332b;
+  --brand: #1e6051;
+  --canvas: #f5f3ec;
+  --line: rgba(20, 53, 42, 0.1);
+  --mesh-1: rgba(30, 96, 81, 0.14);
+  --mesh-2: rgba(44, 122, 102, 0.18);
+  --mesh-3: rgba(185, 135, 31, 0.1);
+}
+
+/* ---------------- base ----------------
+   Layered so Tailwind text/color utilities (e.g. text-on-brand on a heading)
+   always win over these element defaults. */
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--brand) 24%, transparent);
+    color: var(--ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  /* focus visibility floor */
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+/* Layered so text-color utilities (e.g. text-honey-light on a green section)
+   can override the default brand color. */
+@layer components {
+  /* Numbers wear the ledger's monospaced tabular digits */
+  .tabular {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+}
+
+/* ---------------- atmosphere ---------------- */
+
+.mesh {
+  background:
+    radial-gradient(60% 55% at 78% 8%, var(--mesh-2), transparent 60%),
+    radial-gradient(50% 50% at 12% 22%, var(--mesh-1), transparent 62%),
+    radial-gradient(45% 45% at 60% 90%, var(--mesh-3), transparent 60%);
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--grain) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.hairline-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 40%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(70% 60% at 50% 40%, #000 30%, transparent 78%);
+}
+
+/* ---------------- motion ---------------- */
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* Hidden only once JS confirms it can reveal them again — no-JS shows content. */
+.js .reveal {
+  opacity: 0;
+}
+.reveal.in {
+  animation: reveal-up 0.7s var(--ease-out-soft) forwards;
+}
+
+.float {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+.mesh-drift {
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .js .reveal {
+    opacity: 1 !important;
+  }
+}
