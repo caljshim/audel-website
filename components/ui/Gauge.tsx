@@ -21,14 +21,14 @@ export function Gauge({ pct, tone = "brand", height = 10, className, delay = 0 }
   const color = over ? "copper" : tone;
 
   const track: Record<string, string> = {
-    brand: "bg-brand/12",
+    brand: "bg-brand/14",
     honey: "bg-honey/14",
     copper: "bg-copper/14",
   };
   const grad: Record<string, string> = {
     brand: "from-brand/70 to-brand",
-    honey: "from-honey/70 to-honey-light",
-    copper: "from-copper/70 to-copper-light",
+    honey: "from-honey/70 to-honey",
+    copper: "from-copper/70 to-copper",
   };
 
   return (
@@ -36,7 +36,9 @@ export function Gauge({ pct, tone = "brand", height = 10, className, delay = 0 }
       className={clsx("relative w-full overflow-hidden rounded-full", track[color], className)}
       style={{ height }}
       role="progressbar"
-      aria-valuenow={Math.round(pct)}
+      aria-label="Progress"
+      aria-valuenow={Math.round(fill)}
+      aria-valuetext={`${Math.round(pct)} percent${over ? ", over target" : ""}`}
       aria-valuemin={0}
       aria-valuemax={100}
     >

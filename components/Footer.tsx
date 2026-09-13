@@ -4,9 +4,9 @@ const groups = [
   {
     title: "Product",
     links: [
-      { href: "#pillars", label: "Overview" },
-      { href: "#copilot", label: "AI copilot" },
-      { href: "#how", label: "How it works" },
+      { href: "#finances", label: "Finances" },
+      { href: "#goals", label: "Goals" },
+      { href: "#schedule", label: "Schedule" },
       { href: "#features", label: "Features" },
     ],
   },
@@ -23,11 +23,11 @@ const groups = [
 
 export function Footer() {
   return (
-    <footer className="bg-brand-deep text-cream">
+    <footer className="border-t border-line text-ink">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
         <div className="max-w-xs">
-          <Wordmark variant="cream" />
-          <p className="mt-4 text-sm leading-relaxed text-cream/70">
+          <Wordmark size={34} />
+          <p className="mt-4 text-sm leading-relaxed text-muted">
             One AI copilot for your money, goals, and days. Private by design, and always
             asks before it acts.
           </p>
@@ -35,7 +35,7 @@ export function Footer() {
 
         {groups.map((g) => (
           <div key={g.title}>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cream/50">
+            <p className="text-sm font-semibold text-ink">
               {g.title}
             </p>
             <ul className="mt-4 space-y-2.5">
@@ -43,7 +43,7 @@ export function Footer() {
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="text-sm text-cream/70 transition-colors hover:text-cream"
+                    className="text-sm text-muted transition-colors hover:text-brand"
                   >
                     {l.label}
                   </a>
@@ -54,8 +54,8 @@ export function Footer() {
         ))}
       </div>
 
-      <div className="border-t border-cream/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-cream/55 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Audel. All rights reserved.</p>
           <p className="max-w-md sm:text-right">
             Audel provides financial information and education, not financial advice. It is

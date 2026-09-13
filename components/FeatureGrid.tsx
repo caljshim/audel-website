@@ -1,10 +1,10 @@
 import {
-  LayoutGrid,
   Camera,
+  ScanLine,
+  MapPin,
   Flame,
   Lock,
-  BellRing,
-  Shuffle,
+  Plug,
 } from "lucide-react";
 import { IconChip } from "@/components/ui/IconChip";
 import { Reveal } from "@/components/ui/Reveal";
@@ -18,16 +18,22 @@ const features: {
   copy: string;
 }[] = [
   {
-    icon: LayoutGrid,
-    tone: "brand",
-    title: "Customizable widgets",
-    copy: "Every view is a widget you can rearrange — build a home screen that mirrors your priorities.",
-  },
-  {
     icon: Camera,
     tone: "brand",
     title: "Snap to add",
     copy: "Photograph a planner or receipt and Audel turns it into events, expenses, or goal context.",
+  },
+  {
+    icon: ScanLine,
+    tone: "honey",
+    title: "Nutrition & macros",
+    copy: "Scan a barcode to log calories and protein in a tap, or let your workouts and steps sync in on their own.",
+  },
+  {
+    icon: MapPin,
+    tone: "brand",
+    title: "Location-aware",
+    copy: "Pin a place and a goal or routine checks itself in the moment you arrive — no tapping required.",
   },
   {
     icon: Flame,
@@ -42,16 +48,10 @@ const features: {
     copy: "Read-only connections, no trading scope, and data you control. Your finances stay yours.",
   },
   {
-    icon: BellRing,
-    tone: "brand",
-    title: "Reminders that fit",
-    copy: "Gentle nudges tied to your routines keep money habits and daily plans on track.",
-  },
-  {
-    icon: Shuffle,
+    icon: Plug,
     tone: "honey",
-    title: "Cross-domain answers",
-    copy: "Questions that span budgeting and investing get one coherent answer, not two half-answers.",
+    title: "Bring your own MCP",
+    copy: "Connect new data sources as MCPs and chase goals Audel never shipped with. On the roadmap.",
   },
 ];
 
@@ -69,7 +69,7 @@ export function FeatureGrid() {
           <Reveal
             key={f.title}
             delay={(i % 3) * 90}
-            className="rounded-card border border-line bg-card p-6 shadow-card transition-transform duration-300 hover:-translate-y-1"
+            className="app-surface p-6"
           >
             <IconChip icon={f.icon} tone={f.tone} size="lg" />
             <h3 className="mt-4 font-display text-lg font-bold">{f.title}</h3>

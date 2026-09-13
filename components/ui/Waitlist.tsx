@@ -65,7 +65,7 @@ export function Waitlist({
           "flex flex-col gap-2 rounded-[18px] p-2 sm:flex-row sm:items-center sm:rounded-full",
           onBrand
             ? "bg-on-brand/12 ring-1 ring-on-brand/25"
-            : "border border-line bg-card shadow-card",
+            : "bg-card",
         )}
       >
         <label htmlFor={id} className="sr-only">

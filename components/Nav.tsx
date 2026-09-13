@@ -5,9 +5,9 @@ import { Wordmark } from "@/components/ui/Wordmark";
 import { clsx } from "@/lib/clsx";
 
 const links = [
-  { href: "#pillars", label: "Product" },
-  { href: "#copilot", label: "Copilot" },
-  { href: "#how", label: "How it works" },
+  { href: "#finances", label: "Finances" },
+  { href: "#goals", label: "Goals" },
+  { href: "#schedule", label: "Schedule" },
   { href: "#features", label: "Features" },
 ];
 
@@ -22,17 +22,17 @@ export function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3">
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center bg-canvas/90 px-3 backdrop-blur-xl">
       <nav
         className={clsx(
-          "flex w-full max-w-6xl items-center justify-between rounded-full px-4 py-2.5 transition-all duration-300 sm:px-5",
+          "flex w-full max-w-6xl items-center justify-between border-b px-2 py-4 transition-colors duration-300 sm:px-5",
           scrolled
-            ? "border border-line bg-canvas/85 shadow-card backdrop-blur-xl"
-            : "border border-transparent bg-transparent",
+            ? "border-line"
+            : "border-transparent",
         )}
       >
         <a href="#top" className="rounded-full" aria-label="Audel home">
-          <Wordmark variant={scrolled ? "tile" : "cream"} />
+          <Wordmark />
         </a>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -41,10 +41,7 @@ export function Nav() {
               key={l.href}
               href={l.href}
               className={clsx(
-                "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-                scrolled
-                  ? "text-muted hover:text-ink"
-                  : "text-cream/80 hover:text-cream",
+                "rounded-lg px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:text-brand",
               )}
             >
               {l.label}
@@ -55,10 +52,7 @@ export function Nav() {
         <a
           href="#waitlist"
           className={clsx(
-            "inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-            scrolled
-              ? "bg-brand text-on-brand hover:bg-brand-strong"
-              : "bg-cream text-brand hover:bg-cream/90",
+            "inline-flex items-center rounded-full bg-brand px-4 py-2.5 text-sm font-semibold text-on-brand transition-colors hover:bg-brand-strong",
           )}
         >
           Join waitlist

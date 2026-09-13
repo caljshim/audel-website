@@ -1,27 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-
-const display = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const body = Hanken_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-hanken",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-plex-mono",
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://audel.app"),
@@ -52,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e6051",
+  themeColor: "#eef1ee",
   colorScheme: "light",
 };
 
@@ -64,16 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col">
-        {/* Parser-run before paint: marks JS active so reveal animations can hide
-            content up front. Without JS the class is absent and everything shows. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js')",
-          }}
-        />
         {children}
       </body>
     </html>
