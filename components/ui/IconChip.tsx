@@ -1,39 +1,41 @@
 import type { LucideIcon } from "lucide-react";
 import { clsx } from "@/lib/clsx";
 
-type Tone = "brand" | "honey" | "copper" | "cream";
+type Tone = "pine" | "honey" | "copper" | "slate" | "wine" | "meta";
 
-const tones: Record<Tone, string> = {
-  brand: "bg-brand/12 text-brand",
-  honey: "bg-honey/14 text-honey",
-  copper: "bg-copper/14 text-copper",
-  cream: "bg-cream/12 text-cream",
+const TONES: Record<Tone, string> = {
+  pine: "bg-pine/[0.13] text-pine",
+  honey: "bg-honey/[0.13] text-honey",
+  copper: "bg-copper/[0.13] text-copper",
+  slate: "bg-chart-3/[0.13] text-chart-3",
+  wine: "bg-chart-5/[0.13] text-chart-5",
+  meta: "bg-label/[0.06] text-meta",
 };
 
-const sizes = {
-  sm: "size-7 rounded-[9px] [&>svg]:size-[15px]",
-  md: "size-10 rounded-[12px] [&>svg]:size-[19px]",
-  lg: "size-12 rounded-[14px] [&>svg]:size-[22px]",
+const SIZES = {
+  /** the app's exact chip: 27pt square, 8pt corner */
+  sm: "size-[27px] rounded-[8px] [&>svg]:size-[15px]",
+  md: "size-[34px] rounded-[10px] [&>svg]:size-[18px]",
 };
 
-/** SF-symbol-in-a-tinted-square, straight from the app's IconChip. */
+/** `IconChip` — a symbol in a tinted rounded square. Replaces ad-hoc emoji. */
 export function IconChip({
   icon: Icon,
-  tone = "brand",
-  size = "md",
+  tone = "pine",
+  size = "sm",
   className,
 }: {
   icon: LucideIcon;
   tone?: Tone;
-  size?: keyof typeof sizes;
+  size?: keyof typeof SIZES;
   className?: string;
 }) {
   return (
     <span
       className={clsx(
-        "inline-grid place-items-center [&>svg]:stroke-[2.25]",
-        tones[tone],
-        sizes[size],
+        "inline-grid shrink-0 place-items-center [&>svg]:stroke-[2.25]",
+        TONES[tone],
+        SIZES[size],
         className,
       )}
     >

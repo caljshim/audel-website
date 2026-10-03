@@ -1,58 +1,35 @@
-import { ArrowDown, CalendarDays, Target, Wallet } from "lucide-react";
-import { PhoneMockup } from "@/components/mockups/PhoneMockup";
+import { HomeScreen } from "@/components/mockups/Screens";
 import { Waitlist } from "@/components/ui/Waitlist";
-import { Reveal } from "@/components/ui/Reveal";
+import { TagBadge } from "@/components/ui/TagBadge";
 
 export function Hero() {
   return (
-    <section id="top" className="overflow-hidden pb-12 pt-36 sm:pt-40 lg:pb-20">
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <div className="max-w-xl">
-          <Reveal>
-            <p className="inline-flex items-center gap-2 text-sm font-semibold text-brand">
-              <span className="size-2 rounded-full bg-brand" aria-hidden />
-              A little more clarity, every day.
-            </p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h1 className="mt-5 text-[clamp(2.8rem,5.5vw,4.4rem)] font-bold leading-[1.06] tracking-[-0.045em]">
-              Your money.<br />
-              Your goals.<br />
-              <span className="text-brand">Your day, together.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={150}>
-            <p className="mt-6 max-w-[470px] text-lg leading-relaxed text-muted">
-              One AI copilot that sees the whole picture. Audel connects your
-              accounts, follows your goals, and helps you make room for what matters.
-            </p>
-          </Reveal>
-          <Reveal delay={220}>
-            <div className="mt-8 max-w-md" id="waitlist-hero">
-              <Waitlist />
-            </div>
-          </Reveal>
-          <Reveal delay={260}>
-            <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3">
-              {[
-                { icon: Wallet, label: "Finances", href: "#finances" },
-                { icon: Target, label: "Goals", href: "#goals" },
-                { icon: CalendarDays, label: "Schedule", href: "#schedule" },
-              ].map(({ icon: Icon, label, href }) => (
-                <a key={label} href={href} className="flex items-center gap-2 py-2 text-sm font-medium text-muted transition-colors hover:text-brand">
-                  <Icon className="size-4 text-brand" aria-hidden />{label}
-                </a>
-              ))}
-            </div>
-            <a href="#finances" className="mt-7 inline-flex items-center gap-2 py-2 text-sm font-semibold text-brand">
-              Take a closer look <ArrowDown className="size-4" aria-hidden />
-            </a>
-          </Reveal>
+    <section id="top" className="sheet pt-28 sm:pt-32">
+      <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+        <div>
+          <h1 className="max-w-[15ch] text-[clamp(2.6rem,6vw,4.1rem)] font-bold leading-[1.04] tracking-[-0.04em]">
+            Your money, your goals, and your day, kept on one sheet.
+          </h1>
+          <p className="prose-measure mt-6 text-[19px] leading-[1.5] text-prose">
+            Audel reads your accounts, follows the goals you set, and walks you
+            through the day. Ask it anything. It asks you before it acts.
+          </p>
+          <div className="mt-8 max-w-[30rem]">
+            <Waitlist />
+          </div>
         </div>
-        <Reveal delay={160} className="flex flex-col items-center gap-5 lg:items-end">
-          <PhoneMockup />
-          <p className="w-full text-center text-xs text-muted lg:max-w-[332px]">A glimpse of Audel. Illustrative data.</p>
-        </Reveal>
+
+        <div className="flex justify-center lg:justify-end">
+          <HomeScreen />
+        </div>
+      </div>
+
+      <div className="mt-12 flex flex-wrap items-center gap-2 border-t border-rule pt-6">
+        <TagBadge>Bank-linked with Plaid</TagBadge>
+        <TagBadge>Read-only</TagBadge>
+        <TagBadge>No trades, no transfers</TagBadge>
+        <TagBadge>Yours alone</TagBadge>
+        <p className="ml-auto text-[13px] text-meta">Screens are real. Figures are sample data.</p>
       </div>
     </section>
   );

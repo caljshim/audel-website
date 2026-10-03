@@ -1,188 +1,76 @@
-import { Wallet, ScanLine, MapPin, Activity, Plug, ArrowRight } from "lucide-react";
-import { Gauge } from "@/components/ui/Gauge";
-import { Reveal } from "@/components/ui/Reveal";
+import { PiggyBank, ScanBarcode, MapPin, Plug } from "lucide-react";
+import { GoalsScreen } from "@/components/mockups/Screens";
+import { IconChip } from "@/components/ui/IconChip";
+import { LedgerRow } from "@/components/ui/Ledger";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { AskAudel } from "@/components/ui/AskAudel";
+import { TagBadge } from "@/components/ui/TagBadge";
 import type { LucideIcon } from "lucide-react";
 
 /**
- * Goals feature. The idea Audel is selling here: a goal points at a real data
- * source — your accounts, a barcode, a place, a workout — and tracks itself.
- * Each card wears a "source" chip naming the link, mapped from the app's
- * GoalProgressSource model (finances, nutrition, fitness, location), with MCPs
- * as the open-ended future.
+ * Goals, shown as the app draws them rather than rebuilt here. An earlier pass
+ * recreated `PinnedGoalsWidget` in HTML at page scale; it drifted, the way every
+ * reimplementation of a SwiftUI screen does, so this section now shows the
+ * capture and spends its words on what a goal is wired to.
  */
-
-type Source = {
-  label: string;
-  icon: LucideIcon;
-  /** hex; used at full strength for text and ~12% for the chip fill */
-  color: string;
-};
-
-const SOURCES = {
-  finances: { label: "Finances", icon: Wallet, color: "#146b54" },
-  nutrition: { label: "Nutrition", icon: ScanLine, color: "#b9871f" },
-  location: { label: "Location", icon: MapPin, color: "#46698c" },
-  fitness: { label: "Fitness", icon: Activity, color: "#8c4658" },
-} satisfies Record<string, Source>;
-
-function SourceChip({ source }: { source: Source }) {
-  const { icon: Icon, label, color } = source;
-  return (
-    <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold"
-      style={{ backgroundColor: `${color}1f`, color }}
-    >
-      <Icon className="size-3 stroke-[2.5]" aria-hidden />
-      {label}
-    </span>
-  );
-}
-
-type Goal = {
-  name: string;
-  source: Source;
-  value: string;
-  target: string;
-  pct: number;
-  note: string;
-  tone?: "brand" | "honey";
-};
-
-const goals: Goal[] = [
+const sources: { icon: LucideIcon; tone: "pine" | "honey" | "slate"; name: string; meta: string }[] = [
   {
-    name: "Emergency fund",
-    source: SOURCES.finances,
-    value: "$7,800",
-    target: "of $10,000",
-    pct: 78,
-    note: "Follows the balance across your accounts.",
+    icon: PiggyBank,
+    tone: "pine",
+    name: "Your accounts",
+    meta: "Connected read-only through Plaid. A savings target reads the balance itself; a spending limit watches the transactions land.",
   },
   {
-    name: "Protein",
-    source: SOURCES.nutrition,
-    value: "128 g",
-    target: "of 140 g today",
-    pct: 91,
+    icon: ScanBarcode,
     tone: "honey",
-    note: "Scan a barcode and the macros fill themselves in.",
+    name: "A barcode",
+    meta: "Scan the packet and the macros fill themselves in — nothing to weigh, nothing to look up at the end of the day.",
   },
   {
-    name: "Gym visits",
-    source: SOURCES.location,
-    value: "3",
-    target: "of 4 this week",
-    pct: 75,
-    note: "Checks itself in the moment you arrive.",
-  },
-  {
-    name: "Weekly run",
-    source: SOURCES.fitness,
-    value: "14 mi",
-    target: "of 20 mi",
-    pct: 70,
-    note: "Your runs and workouts sync themselves.",
+    icon: MapPin,
+    tone: "slate",
+    name: "A place",
+    meta: "Pin the gym. The goal checks itself off in the moment you arrive, which is the only moment you were ever going to do it.",
   },
 ];
 
-function GoalCard({ goal }: { goal: Goal }) {
-  return (
-    <div className="app-surface h-full p-5">
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="font-display text-[15px] font-bold text-ink">{goal.name}</h3>
-        <SourceChip source={goal.source} />
-      </div>
-      <p className="mt-3 flex items-baseline gap-1.5">
-        <span className="tabular-round text-2xl font-extrabold text-ink">{goal.value}</span>
-        <span className="text-xs font-medium text-faint">{goal.target}</span>
-      </p>
-      <div className="mt-3">
-        <Gauge pct={goal.pct} tone={goal.tone ?? "brand"} height={9} />
-      </div>
-      <p className="mt-2.5 text-[12.5px] leading-relaxed text-muted">{goal.note}</p>
-    </div>
-  );
-}
-
 export function GoalsFeature() {
   return (
-    <section id="goals" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-20 sm:py-28">
+    <section id="goals" className="sheet scroll-mt-20 border-b border-rule py-20 sm:py-24">
       <SectionHeading
-        eyebrow="Goals"
-        title={
-          <>
-            Point a goal at your real life.
-            <br className="hidden sm:block" /> It tracks itself.
-          </>
-        }
-        intro="Link a goal straight to your finances, your nutrition, or the places you go, and Audel pulls the progress in for you — no spreadsheets, no manual logging."
+        name="Goals"
+        title="Point a goal at something real and it tracks itself."
+        intro="A goal in Audel is wired to a source — your balances, a barcode, a place you go, a workout you finish. You set the target once; the progress arrives on its own, in the one progress mark the app uses for everything."
       />
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {goals.map((g, i) => (
-            <Reveal key={g.name} delay={(i % 2) * 90}>
-              <GoalCard goal={g} />
-            </Reveal>
-          ))}
+      <div className="mt-12 grid items-center gap-14 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-16">
+        <div className="flex justify-center lg:justify-start">
+          <GoalsScreen />
         </div>
 
-        {/* Bring-your-own: the MCP roadmap, framed as the fifth "source" */}
-        <Reveal delay={120} className="flex">
-          <div className="app-surface relative flex w-full flex-col justify-between overflow-hidden p-6">
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="grid size-11 place-items-center rounded-chip bg-brand/12 text-brand">
-                  <Plug className="size-5" aria-hidden />
-                </span>
-                <span className="rounded-full bg-honey/14 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-honey">
-                  On the roadmap
-                </span>
-              </div>
-              <h3 className="mt-5 font-display text-xl font-bold text-ink">
-                Bring your own source.
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                We&rsquo;re opening goals up to any MCP — connect the data you already
-                track and build goals Audel never shipped. Sleep, screen time, reading,
-                miles flown; if a server can report it, you can chase it.
-              </p>
-            </div>
+        <div>
+          {sources.map((s) => (
+            <LedgerRow
+              key={s.name}
+              name={s.name}
+              meta={s.meta}
+              leading={<IconChip icon={s.icon} tone={s.tone} size="md" />}
+            />
+          ))}
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {["Sleep", "Focus time", "Books read", "Your own data"].map((t) => (
-                <span
-                  key={t}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card px-2.5 py-1 text-[11px] font-medium text-muted"
-                >
-                  {t}
-                  {t === "Your own data" ? (
-                    <ArrowRight className="size-3 text-brand" aria-hidden />
-                  ) : null}
-                </span>
-              ))}
+          <div className="pt-6">
+            <div className="flex items-center gap-3">
+              <IconChip icon={Plug} size="md" />
+              <TagBadge tone="honey">On the roadmap</TagBadge>
             </div>
+            <h3 className="mt-4 text-[19px] font-semibold">Bring your own source</h3>
+            <p className="prose-measure mt-2 text-[15px] leading-[1.55] text-prose">
+              Goals are opening up to any MCP server, so the data you already
+              keep somewhere else can become a target here. Hours slept, pages
+              read, miles flown — things Audel never shipped with.
+            </p>
           </div>
-        </Reveal>
+        </div>
       </div>
-
-      <Reveal delay={120} className="mt-8 flex justify-center">
-        <AskAudel
-          question="Am I on track for my emergency fund?"
-          answer={
-            <>
-              <p>
-                Yes — <span className="tabular-round font-semibold">$7,800</span> of
-                $10,000. On pace to finish in October.
-              </p>
-              <div className="mt-2">
-                <Gauge pct={78} height={7} />
-              </div>
-            </>
-          }
-        />
-      </Reveal>
     </section>
   );
 }

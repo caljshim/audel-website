@@ -1,80 +1,83 @@
-import {
-  Camera,
-  ScanLine,
-  MapPin,
-  Flame,
-  Lock,
-  Plug,
-} from "lucide-react";
+import { Camera, ScanBarcode, MapPin, Flame, Lock, Plug } from "lucide-react";
 import { IconChip } from "@/components/ui/IconChip";
-import { Reveal } from "@/components/ui/Reveal";
+import { LedgerRow } from "@/components/ui/Ledger";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { LucideIcon } from "lucide-react";
 
 const features: {
   icon: LucideIcon;
-  tone: "brand" | "honey";
+  tone: "pine" | "honey" | "slate" | "wine";
   title: string;
   copy: string;
+  value: string;
 }[] = [
   {
     icon: Camera,
-    tone: "brand",
+    tone: "pine",
     title: "Snap to add",
-    copy: "Photograph a planner or receipt and Audel turns it into events, expenses, or goal context.",
+    copy: "A receipt, a planner page, a whiteboard. Audel reads it into expenses, events, or goal context.",
+    value: "Camera",
   },
   {
-    icon: ScanLine,
+    icon: ScanBarcode,
     tone: "honey",
-    title: "Nutrition & macros",
-    copy: "Scan a barcode to log calories and protein in a tap, or let your workouts and steps sync in on their own.",
+    title: "Nutrition and macros",
+    copy: "Scan a barcode to log calories and protein in a tap, or let workouts and steps arrive on their own.",
+    value: "Barcode",
   },
   {
     icon: MapPin,
-    tone: "brand",
-    title: "Location-aware",
-    copy: "Pin a place and a goal or routine checks itself in the moment you arrive — no tapping required.",
+    tone: "slate",
+    title: "Location check-ins",
+    copy: "Pin a place. A goal or routine tied to it closes itself the moment you get there.",
+    value: "Geofence",
   },
   {
     icon: Flame,
     tone: "honey",
-    title: "Streaks & milestones",
-    copy: "Honey-gold rewards for staying under budget and hitting the targets you set.",
+    title: "Streaks and milestones",
+    copy: "Honey is the app's colour for earned. A held streak or a cleared milestone thickens the rule on its section.",
+    value: "Honey",
   },
   {
     icon: Lock,
-    tone: "brand",
-    title: "Private by design",
-    copy: "Read-only connections, no trading scope, and data you control. Your finances stay yours.",
+    tone: "pine",
+    title: "Private by construction",
+    copy: "Read-only connections, no trading scope, no money movement. There is no code path that could.",
+    value: "Read-only",
   },
   {
     icon: Plug,
-    tone: "honey",
-    title: "Bring your own MCP",
-    copy: "Connect new data sources as MCPs and chase goals Audel never shipped with. On the roadmap.",
+    tone: "wine",
+    title: "Your own MCP servers",
+    copy: "Bring a data source Audel has never heard of and build goals on top of it.",
+    value: "Roadmap",
   },
 ];
 
 export function FeatureGrid() {
   return (
-    <section id="features" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-20 sm:py-28">
-      <SectionHeading
-        eyebrow="Built into every day"
-        title="The details that make it stick."
-        intro="Small, considered touches — the same ones that make the app feel like it was made for the way you actually live."
-      />
+    <section id="features" className="sheet scroll-mt-20 border-b border-rule py-20 sm:py-24">
+      <div className="grid gap-6 md:grid-cols-2 md:gap-x-16">
+        <SectionHeading name="In the details" title="The small things that make it stick." />
+        <p className="text-[17px] leading-[1.55] text-prose md:self-end md:pb-1">
+          Most of what Audel does happens without being asked. These are the
+          parts people notice a week in.
+        </p>
+      </div>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-x-16 md:grid-cols-2">
         {features.map((f, i) => (
-          <Reveal
+          <LedgerRow
             key={f.title}
-            delay={(i % 3) * 90}
-            className="app-surface p-6"
-          >
-            <IconChip icon={f.icon} tone={f.tone} size="lg" />
-            <h3 className="mt-4 font-display text-lg font-bold">{f.title}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-muted">{f.copy}</p>
-          </Reveal>
+            name={f.title}
+            meta={f.copy}
+            leading={<IconChip icon={f.icon} tone={f.tone} size="md" />}
+            value={f.value}
+            valueTone="meta"
+            figure={false}
+            showsDivider={i < features.length - 2}
+          />
         ))}
       </div>
     </section>

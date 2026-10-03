@@ -1,20 +1,24 @@
 import type { LucideIcon } from "lucide-react";
 import { clsx } from "@/lib/clsx";
 
-type Tone = "brand" | "honey" | "copper" | "muted";
+type Tone = "pine" | "honey" | "copper" | "on-pine";
 
-const tones: Record<Tone, string> = {
-  brand: "bg-brand/12 text-brand",
-  honey: "bg-honey/14 text-honey",
-  copper: "bg-copper/14 text-copper",
-  muted: "bg-ink/6 text-muted",
+const TONES: Record<Tone, string> = {
+  pine: "bg-pine/[0.12] text-pine",
+  honey: "bg-honey/[0.12] text-honey",
+  copper: "bg-copper/[0.12] text-copper",
+  "on-pine": "bg-on-pine/[0.15] text-on-pine",
 };
 
-/** Small uppercase capsule status label ("Recommended", "Read-only"). */
+/**
+ * `TagBadge` — a small capsule status label. Uppercase and tracked, which is
+ * what the app reserves this treatment for: a label sitting inside a filled
+ * shape, never the heading of a section.
+ */
 export function TagBadge({
   children,
   icon: Icon,
-  tone = "brand",
+  tone = "pine",
   className,
 }: {
   children: React.ReactNode;
@@ -25,8 +29,8 @@ export function TagBadge({
   return (
     <span
       className={clsx(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em]",
-        tones[tone],
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.6px]",
+        TONES[tone],
         className,
       )}
     >

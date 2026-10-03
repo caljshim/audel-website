@@ -1,47 +1,29 @@
-import { Reveal } from "@/components/ui/Reveal";
+import { WidgetTitle } from "@/components/ui/Ledger";
 import { clsx } from "@/lib/clsx";
 
+/**
+ * A section of the sheet, headed the way a widget is headed in the app: the
+ * section's name in small pine capitals, then the headline. With no card edge
+ * to announce a new section, the title has to do that work itself.
+ */
 export function SectionHeading({
-  eyebrow,
+  name,
   title,
   intro,
-  align = "left",
   className,
 }: {
-  eyebrow: string;
+  name: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
-  align?: "left" | "center";
   className?: string;
 }) {
   return (
-    <div
-      className={clsx(
-        "max-w-2xl",
-        align === "center" && "mx-auto text-center",
-        className,
-      )}
-    >
-      <Reveal>
-        <p className="eyebrow">{eyebrow}</p>
-      </Reveal>
-      <Reveal delay={70}>
-        <h2 className="mt-3 font-display text-[clamp(1.9rem,4vw,2.75rem)] font-bold leading-[1.12] tracking-[-0.035em]">
-          {title}
-        </h2>
-      </Reveal>
-      {intro ? (
-        <Reveal delay={130}>
-          <p
-            className={clsx(
-              "mt-4 text-lg leading-relaxed text-muted",
-              align === "center" && "mx-auto",
-            )}
-          >
-            {intro}
-          </p>
-        </Reveal>
-      ) : null}
+    <div className={clsx("prose-measure", className)}>
+      <WidgetTitle>{name}</WidgetTitle>
+      <h2 className="mt-3 text-[clamp(1.9rem,3.6vw,2.6rem)] font-bold tracking-[-0.03em]">
+        {title}
+      </h2>
+      {intro ? <p className="mt-4 text-[17px] leading-[1.55] text-prose">{intro}</p> : null}
     </div>
   );
 }

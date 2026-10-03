@@ -1,28 +1,30 @@
 "use client";
 
 import { useId, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { clsx } from "@/lib/clsx";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Front-end only waitlist capture. Validates an email and shows a confirmation
- * — no data leaves the browser. Point `onJoin` at a real endpoint later.
+ * Front-end only waitlist capture. Validates an email and confirms — no data
+ * leaves the browser. Point it at a real endpoint when there is one.
  */
 export function Waitlist({
-  variant = "light",
+  variant = "paper",
+  note = "Coming soon to iOS. One email, on launch day.",
   className,
 }: {
-  /** "light" sits on the canvas; "on-brand" sits on a pine band */
-  variant?: "light" | "on-brand";
+  /** "paper" sits on the sheet; "on-pine" sits on the one brand surface */
+  variant?: "paper" | "on-pine";
+  note?: string;
   className?: string;
 }) {
   const id = useId();
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "error" | "done">("idle");
 
-  const onBrand = variant === "on-brand";
+  const onPine = variant === "on-pine";
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,22 +39,22 @@ export function Waitlist({
     return (
       <div
         className={clsx(
-          "flex items-center gap-3 rounded-full py-3 pl-3 pr-5",
-          onBrand ? "bg-on-brand/15 text-on-brand" : "bg-brand/10 text-brand",
+          "flex items-center gap-3 rounded-[14px] px-4 py-3.5",
+          onPine ? "bg-on-pine/[0.13] text-on-pine" : "bg-pine/[0.10] text-pine",
           className,
         )}
         role="status"
       >
         <span
           className={clsx(
-            "grid size-8 shrink-0 place-items-center rounded-full",
-            onBrand ? "bg-on-brand text-brand" : "bg-brand text-on-brand",
+            "grid size-7 shrink-0 place-items-center rounded-full",
+            onPine ? "bg-on-pine text-pine" : "bg-pine text-on-pine",
           )}
         >
           <Check className="size-4 stroke-[3]" aria-hidden />
         </span>
-        <span className="text-sm font-semibold">
-          You&rsquo;re on the list — we&rsquo;ll email you at launch.
+        <span className="text-[15px] font-semibold">
+          You&rsquo;re on the list. We&rsquo;ll email you the day it ships.
         </span>
       </div>
     );
@@ -60,14 +62,7 @@ export function Waitlist({
 
   return (
     <form onSubmit={submit} noValidate className={clsx("w-full", className)}>
-      <div
-        className={clsx(
-          "flex flex-col gap-2 rounded-[18px] p-2 sm:flex-row sm:items-center sm:rounded-full",
-          onBrand
-            ? "bg-on-brand/12 ring-1 ring-on-brand/25"
-            : "bg-card",
-        )}
-      >
+      <div className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor={id} className="sr-only">
           Email address
         </label>
@@ -84,36 +79,40 @@ export function Waitlist({
           }}
           aria-invalid={state === "error"}
           className={clsx(
-            "min-w-0 flex-1 bg-transparent px-4 py-2.5 text-[15px] outline-none placeholder:text-faint",
-            onBrand ? "text-on-brand placeholder:text-on-brand/55" : "text-ink",
+            "min-w-0 flex-1 rounded-[14px] px-4 py-3 text-[16px] outline-none transition-colors",
+            onPine
+              ? "bg-on-pine/[0.13] text-on-pine placeholder:text-on-pine/65 focus:bg-on-pine/[0.18]"
+              : "bg-label/[0.05] text-label placeholder:text-meta focus:bg-label/[0.08]",
+            state === "error" && !onPine && "ring-1 ring-copper",
           )}
         />
         <button
           type="submit"
           className={clsx(
-            "group inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-3 text-sm font-semibold transition-transform duration-200 active:scale-[0.97] sm:py-2.5",
-            onBrand
-              ? "bg-on-brand text-brand hover:bg-on-brand/90"
-              : "bg-brand text-on-brand hover:bg-brand-strong",
+            "shrink-0 rounded-[14px] px-6 py-3 text-[16px] font-semibold transition-opacity duration-150 active:opacity-60",
+            onPine
+              ? "bg-on-pine text-pine"
+              : "bg-pine text-on-pine",
           )}
         >
           Join waitlist
-          <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
         </button>
       </div>
       <p
         className={clsx(
-          "mt-2 pl-4 text-xs",
+          "mt-2.5 text-[13px]",
           state === "error"
-            ? "text-copper"
-            : onBrand
-              ? "text-on-brand/70"
-              : "text-faint",
+            ? onPine
+              ? "text-on-pine"
+              : "text-copper"
+            : onPine
+              ? "text-on-pine/70"
+              : "text-meta",
         )}
       >
         {state === "error"
           ? "Enter a valid email address to join."
-          : "Coming soon to iOS. No spam — one launch email."}
+          : note}
       </p>
     </form>
   );

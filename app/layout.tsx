@@ -1,5 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Nunito } from "next/font/google";
 import "./globals.css";
+
+/**
+ * The app is set in SF Pro, with SF Pro Rounded and monospaced digits on every
+ * figure. Both are system faces on Apple hardware, which is most of the people
+ * waiting for an iOS app — these two are the fallback for everyone else.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  variable: "--font-nunito",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://audel.app"),
@@ -30,7 +48,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#eef1ee",
+  themeColor: "#ffffff",
   colorScheme: "light",
 };
 
@@ -42,11 +60,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full antialiased"
+      className={`h-full antialiased ${inter.variable} ${nunito.variable}`}
     >
-      <body className="min-h-full flex flex-col">
-        {children}
-      </body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

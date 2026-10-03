@@ -2,17 +2,14 @@ import Image from "next/image";
 import { clsx } from "@/lib/clsx";
 
 /**
- * Audel wordmark using the real app logo — the cream "a" mark with its three
- * ascending schedule bars.
- *
- * - `tile`  → the green app-icon tile, for light backgrounds
- * - `cream` → the cream mark on transparent, for green backgrounds
+ * The Audel wordmark: the cream "a" with its three ascending bars, either on
+ * its pine tile or on its own for a pine ground.
  */
 export function Wordmark({
   className,
   variant = "tile",
   showText = true,
-  size = 30,
+  size = 28,
 }: {
   className?: string;
   variant?: "tile" | "cream";
@@ -27,7 +24,7 @@ export function Wordmark({
           alt="Audel"
           width={size}
           height={size}
-          className="rounded-[8px] shadow-[0_1px_2px_rgba(19,60,51,0.25)]"
+          className="rounded-[7px]"
           priority
         />
       ) : (
@@ -43,8 +40,8 @@ export function Wordmark({
       {showText ? (
         <span
           className={clsx(
-            "font-display text-[19px] font-bold tracking-[-0.03em]",
-            variant === "cream" ? "text-cream" : "text-ink",
+            "text-[19px] font-bold tracking-[-0.02em]",
+            variant === "cream" ? "text-on-pine" : "text-label",
           )}
         >
           Audel

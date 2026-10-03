@@ -1,0 +1,1797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/audel-icon-144.png" type="image/png">
+<link rel="apple-touch-icon" href="/audel-icon-144.png">
+<meta property="og:title" content="Audel">
+<meta property="og:description" content="Your money, goals and schedule, set up by asking.">
+<meta property="og:image" content="/audel-icon.png">
+<title>Audel</title>
+<meta name="description" content="Audel sets up your money, goals and schedule when you ask, then keeps them up to date from your accounts and apps.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,300..600&family=EB+Garamond:wght@400..600&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400..700&family=Courier+Prime:wght@400;700&family=Lora:wght@400..600&family=Bitter:wght@400..600&family=DM+Serif+Display&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@400..600&family=Archivo:wght@400..600&display=swap">
+
+<style>
+/* Layout: one white sheet, the way the app is: ruled sections, no cards. The
+   page is one story. The montage says what everyone wants; the hero says how
+   Audel does it; each tab then shows it happening inside that tab; a single day
+   shows the three working together; the connectors show what it can read.
+
+   Tokens are Theme.swift, light mode. Light only, by decision. */
+:root {
+  --canvas: #FFFFFF;
+  --sunk:   #F3F5F4;
+  --pine:   #146B54;
+  --pine-deep: #0B493A;
+  --pine-tint: rgba(20, 107, 84, .10);
+  --honey:  #B9871F;
+  --copper: #B0562F;
+  --on-pine: #FFFFFF;
+
+  --label:  #000000;
+  --prose:  #4A4D4C;
+  --meta:   #7A7A7F;
+  --quiet:  #B4B4B8;
+
+  --rule-section: rgba(20, 53, 42, .16);
+  --rule-faint:   rgba(20, 53, 42, .11);
+  --stroke:       rgba(20, 53, 42, .06);
+
+  /* SF Pro and SF Pro Rounded on Apple devices, which is what the app is set in;
+     Instrument Sans and Nunito stand in everywhere else. */
+  --text:  -apple-system, BlinkMacSystemFont, "SF Pro Text", "Instrument Sans", system-ui, sans-serif;
+  --round: ui-rounded, "SF Pro Rounded", Nunito, "Instrument Sans", system-ui, sans-serif;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --head: 60px;
+  /* Where the header's bottom edge actually is. On an iPhone the header sits
+     under the status bar and the Dynamic Island, so anything that sticks below
+     it has to add that inset too, or it slides up under the glass. */
+  --top: calc(var(--head) + env(safe-area-inset-top, 0px));
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body {
+  margin: 0; background: var(--canvas); color: var(--label);
+  font-family: var(--text); font-size: 17px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+p, h1, h2, h3, h4, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { text-wrap: balance; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--pine); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap { width: 100%; max-width: 1140px; margin-inline: auto; padding-inline: 24px; }
+.fig { font-family: var(--round); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.ic { width: 1em; height: 1em; flex: none; }
+
+/* The app's WidgetTitle. The one tracked-caps treatment on the page. */
+.wt { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--pine); }
+
+/* ------------------------------------------------------------------ header */
+/* Glass. The header floats over the page rather than sitting above it, so the
+   montage runs up behind it: a thin, cool frost with no fill of its own, and a
+   hairline that only appears once there is page scrolling under it. */
+header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40;
+  height: var(--head); margin-bottom: calc(-1 * var(--head));
+  background: rgba(255, 255, 255, .42);
+  backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6);
+  transition: background .25s, border-color .25s;
+}
+header.stuck { background: rgba(255, 255, 255, .72); border-bottom-color: var(--stroke); }
+.nav a { background: transparent; }
+header .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 1.05rem; letter-spacing: -.01em; }
+/* The app's own icon, not a redrawing of it. iOS rounds an icon to about 22.5%
+   of its width, so it gets the same corner here. */
+.brand .appicon { width: 26px; height: 26px; border-radius: 22.5%; }
+.nav { display: flex; gap: 4px; }
+.nav a {
+  display: flex; align-items: center; gap: 7px; padding: 7px 11px; border-radius: 999px;
+  font-size: .88rem; color: var(--prose); transition: color .15s, background .15s;
+}
+.nav a:hover { color: var(--pine); background: var(--pine-tint); }
+.nav a .ic { font-size: 1.05rem; color: var(--pine); }
+.nav .extra { display: none; }
+@media (min-width: 980px) { .nav .extra { display: flex; } }
+@media (max-width: 620px) { .nav a span { display: none; } .nav a { padding: 8px; } }
+
+/* ----------------------------------------------------------- the masthead */
+/* A held graphic match, cut fast, running forever.
+
+   The frame is pushed in close on a page, so the type is large and only the
+   middle of the frame is in focus. "reach your goals" is not a headline laid
+   over the page -- it is the page's own text, in the page's own face, at the
+   page's own size, and it is the one thing in the focal plane. Twelve kinds of
+   document go past underneath it; the phrase never moves.
+
+   The focal region is an ellipse rather than a circle. A circle wide enough to
+   hold a four-word phrase would open a hole tall enough to show three lines of
+   the page sharp, which reads as a window rather than as focus.
+
+   The falloff is three copies of each page at increasing blur, each revealed by
+   its own mask. A single `filter: blur()` cannot vary across an element, so one
+   layer gives a flat smear instead of a lens. The masks sit on the rings, which
+   never move; the pages translate inside them.
+
+   Coverage is structural: each page is a three by three tiling of its own text
+   block with the phrase in the centre tile, so there is always a full block of
+   type on every side of the focal point wherever the phrase falls in its line. */
+
+/* The whole first screen. Nothing else is competing with it, so the frame can
+   be the size a frame actually is. */
+.masthead {
+  padding: 0;
+  border: 0;
+  height: 88svh;
+  min-height: 480px;
+}
+
+.scope {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Everything in the frame is proportional to the height of a capital, which
+     JS measures and sets here. The focal plane then holds its relationship to
+     the type at any viewport, instead of being twelve pixel values that only
+     happened to look right at one size. */
+  --cap: 29px;
+  --tile-w: 1100px;
+
+  /* The focal plane, measured from the word in focus rather than guessed at.
+     JS rewrites --w0 on every cut, because "reach" in Cormorant and "goals" in
+     Space Mono are not the same size and the sharp patch has to fit each of
+     them without reaching the words either side. */
+  --w0: 150px;
+  --h0: 64px;
+}
+
+.ring { position: absolute; inset: 0; pointer-events: none; }
+
+/* the focal plane: one word wide. The phrase stays where it is and the
+   focus travels along it, so this is sized to a word, not to the line. */
+.ring.r0 {
+  -webkit-mask-image: radial-gradient(ellipse var(--w0) var(--h0) at 50% 50%, #000 0 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse var(--w0) var(--h0) at 50% 50%, #000 0 60%, transparent 100%);
+}
+/* just off it */
+.ring.r1 {
+  filter: blur(calc(var(--cap) * .1));
+  -webkit-mask-image: radial-gradient(ellipse var(--w0) var(--h0) at 50% 50%, transparent 0 60%, #000 100% 280%, transparent 460%);
+  mask-image: radial-gradient(ellipse var(--w0) var(--h0) at 50% 50%, transparent 0 60%, #000 100% 280%, transparent 460%);
+}
+/* and the far field, where the page is barely type at all */
+.ring.r2 {
+  filter: blur(calc(var(--cap) * .24));
+  -webkit-mask-image: radial-gradient(ellipse var(--w0) var(--h0) at 50% 50%, transparent 0 240%, #000 420%);
+  mask-image: radial-gradient(ellipse var(--w0) var(--h0) at 50% 50%, transparent 0 240%, #000 420%);
+}
+
+.page {
+  position: absolute; top: 0; left: 0;
+  display: grid;
+  grid-template-columns: repeat(3, var(--tile-w));
+  width: calc(var(--tile-w) * 3);
+  opacity: 0;
+  color: #141414;
+  line-height: 1.42;
+}
+.page.on { opacity: 1; }
+.page .ptile { width: var(--tile-w); padding-right: calc(var(--tile-w) * .042); }
+.page p { margin-bottom: .42em; }
+.page .rule { height: 2px; background: rgba(0,0,0,.45); margin: .4em 0; }
+.page .small { font-size: .62em; letter-spacing: .08em; text-transform: uppercase; opacity: .65; }
+
+/* The phrase is a hook for measuring, never a piece of emphasis. It must not
+   break across lines, or the focus would have to travel between two places at
+   once. Each word inside it is addressable, because the focus lands on them one
+   at a time. */
+.page .anchor { font-style: inherit; font-weight: inherit; white-space: nowrap; }
+
+/* Sits on the baseline and takes up nothing. Zero height means its top edge is
+   the baseline, so offsetTop reports where the face actually puts it. */
+.page .anchor .bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+
+/* ------------------------------------------------------------------ paper */
+/* The ground is a real layer, not the page's white. It changes with every cut,
+   because newsprint, a dictionary's rag stock and a terminal's flat grey are
+   not the same colour, and the montage is more convincing when the paper
+   changes as well as the face. It sits behind the rings, unmasked, so it never
+   picks up the blur. */
+
+.ground {
+  position: absolute; inset: -12%;
+  background-color: #FAF9F6;
+}
+
+.ground.f-news { background-color: #F0EDE4; }  /* newsprint, slightly grey */
+.ground.f-wiki { background-color: #FCFCFC; }  /* a screen, not paper */
+.ground.f-dict { background-color: #F8F4EA; }  /* thin bible stock */
+.ground.f-book { background-color: #F6F1E4; }  /* foxed a little */
+.ground.f-mag  { background-color: #FFFFFF; }  /* coated, bright */
+.ground.f-wire { background-color: #F5F5F1; }
+.ground.f-jrnl { background-color: #FAF8F2; }
+.ground.f-manl { background-color: #F2F2EE; }  /* cheap uncoated */
+.ground.f-rept { background-color: #FCFBF7; }
+.ground.f-term { background-color: #F4F6F6; }  /* a screen again, cooler */
+.ground.f-clsc { background-color: #F4EDDD; }  /* the oldest thing here */
+.ground.f-form { background-color: #EFF1EE; }  /* carbonless, faint green */
+
+/* Grain over everything, type included -- it is the paper the words are printed
+   on, so it has to sit on top of them. Multiply keeps it darkening only, which
+   is what a fibre does to ink. */
+.grain {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: .55;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg, rgba(120,110,90,.055) 0 1px, transparent 1px 3px);
+}
+
+/* The frame is lit from the middle, like a page under a lamp. */
+.scope::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: radial-gradient(ellipse 116% 130% at 50% 48%, transparent 38%, rgba(72, 60, 40, .13) 100%);
+}
+
+/* --------------------------------------------------- how each one is set */
+/* Face alone is not enough. A newspaper justifies into ruled columns, a form
+   rules a line under every field, a dictionary hangs its indent -- and those
+   habits read faster than the typeface does. */
+
+.page.f-news .ptile { border-right: 1px solid rgba(20, 20, 20, .17); }
+.page.f-news p { text-align: justify; hyphens: auto; }
+
+.page.f-wiki .lnk { color: #2A5DB0; text-decoration: underline; text-underline-offset: .13em; }
+
+.page.f-dict p { padding-left: 1.15em; text-indent: -1.15em; }
+
+.page.f-book p { text-align: justify; hyphens: auto; }
+.page.f-book .small { text-align: center; letter-spacing: .22em; }
+
+/* the standfirst gets an initial, which is the one thing a magazine always does */
+.page.f-mag p:nth-of-type(2)::first-letter {
+  float: left; font-size: 2.5em; line-height: .8;
+  padding: .06em .09em 0 0; font-weight: 600;
+}
+
+.page.f-jrnl p { text-align: justify; hyphens: auto; }
+.page.f-jrnl p + p { text-indent: 1.4em; }
+
+.page.f-manl p { padding-left: 1.7em; text-indent: -1.7em; }
+
+.page.f-rept p { text-align: justify; font-variant-numeric: tabular-nums; }
+
+/* log lines stripe, the way every terminal since paper teletypes has */
+.page.f-term p { background: rgba(20, 53, 42, .05); padding: .05em .32em; margin-bottom: .2em; }
+
+.page.f-clsc p { font-style: italic; }
+.page.f-clsc .small { font-style: normal; text-align: center; letter-spacing: .2em; }
+
+/* a form rules a line under everything you are expected to fill in */
+.page.f-form p { border-bottom: 1px solid rgba(20, 20, 20, .45); padding-bottom: .22em; margin-bottom: .5em; }
+
+/* twelve typesettings, each at the size that face wants at this magnification */
+.page.f-news { font-family: Newsreader, Georgia, serif; font-size: 42px; }
+.page.f-wiki { font-family: "Instrument Sans", Arial, sans-serif; font-size: 38px; }
+.page.f-dict { font-family: "Libre Baskerville", Georgia, serif; font-size: 35px; }
+.page.f-book { font-family: "EB Garamond", Garamond, serif; font-size: 48px; }
+.page.f-mag  { font-family: "Playfair Display", Georgia, serif; font-size: 42px; }
+.page.f-wire { font-family: "Courier Prime", ui-monospace, monospace; font-size: 34px; }
+.page.f-jrnl { font-family: Lora, Georgia, serif; font-size: 39px; }
+.page.f-manl { font-family: Bitter, Georgia, serif; font-size: 38px; }
+.page.f-rept { font-family: "DM Serif Display", Georgia, serif; font-size: 45px; }
+.page.f-term { font-family: "Space Mono", ui-monospace, monospace; font-size: 33px; }
+.page.f-clsc { font-family: "Cormorant Garamond", Garamond, serif; font-size: 51px; }
+.page.f-form { font-family: Archivo, Helvetica, sans-serif; font-size: 37px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .scope { animation: scope-in 1.2s var(--ease) both; }
+}
+@keyframes scope-in { from { transform: scale(1.12); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* The foot of the frame. It carries no line any more -- the montage and the
+   panel under it make the argument between them -- so what is left is the fade
+   that stops the page ending on a cut, and a rule saying there is more below. */
+.masthead .card {
+  position: absolute; z-index: 5; left: 0; right: 0; bottom: 0;
+  display: grid; justify-items: center;
+  padding: clamp(60px, 12vh, 130px) 24px clamp(22px, 4vh, 44px);
+  background: linear-gradient(transparent, rgba(255, 255, 255, .62) 52%, rgba(255, 255, 255, .95) 100%);
+}
+.masthead .cue { width: 1px; height: clamp(28px, 5vh, 46px); background: linear-gradient(rgba(20,18,12,.34), transparent); }
+
+/* The page still needs a heading, and the montage is it: the phrase is the only
+   thing in focus on the whole first screen. It is spoken, not shown. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .page.f-news { font-size: 26px; } .page.f-wiki { font-size: 24px; }
+  .page.f-dict { font-size: 22px; } .page.f-book { font-size: 30px; }
+  .page.f-mag  { font-size: 26px; } .page.f-wire { font-size: 21px; }
+  .page.f-jrnl { font-size: 25px; } .page.f-manl { font-size: 24px; }
+  .page.f-rept { font-size: 28px; } .page.f-term { font-size: 21px; }
+  .page.f-clsc { font-size: 32px; } .page.f-form { font-size: 24px; }
+
+}
+
+/* -------------------------------------------------------------------- hero */
+.hero { padding-block: clamp(48px, 8vw, 96px) clamp(40px, 6vw, 72px); }
+.hero-grid { display: grid; gap: 44px; align-items: center; }
+@media (min-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); } }
+.hero h2 {
+  margin: 0; font-family: var(--round); font-weight: 900;
+  font-size: clamp(2.4rem, 5.4vw, 4.3rem); line-height: 1; letter-spacing: -.03em;
+  max-width: 15ch;
+}
+.hero h2 span { color: var(--pine); }
+.hero .lede { margin-top: 24px; font-size: 1.18rem; color: var(--prose); max-width: 30rem; }
+
+/* The centre button and its touch-and-hold fan, drawn open. The arc is centred
+   on the disc and passes through the three buttons, so it reads as the path
+   your thumb slides along. */
+.fan { position: relative; width: min(100%, 360px); aspect-ratio: 1 / .82; margin-inline: auto; }
+.fan-arc {
+  position: absolute; left: 50%; top: 85%; width: 105.6%; aspect-ratio: 1;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  border: 1.5px dashed var(--rule-section); clip-path: inset(0 0 50% 0);
+}
+.disc {
+  position: absolute; left: 50%; top: 85%; transform: translate(-50%, -50%);
+  width: 92px; height: 92px; border-radius: 50%; background: var(--pine);
+  display: grid; place-items: center; box-shadow: 0 10px 28px -10px rgba(11, 73, 58, .55);
+}
+.disc img { width: 100%; height: 100%; }
+.sat {
+  position: absolute; transform: translate(-50%, -50%);
+  display: grid; justify-items: center; gap: 8px; font-size: .8rem; font-weight: 600; color: var(--prose);
+}
+.sat i {
+  width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--canvas); border: 1px solid var(--rule-faint); color: var(--pine);
+  box-shadow: 0 6px 18px -10px rgba(20, 53, 42, .35); font-style: normal;
+}
+.sat i .ic { font-size: 1.45rem; }
+.sat.speak i { background: var(--pine); color: var(--on-pine); border-color: var(--pine); }
+.sat.photo  { left: 19.7%; top: 32%; }
+.sat.speak  { left: 50%;   top: 20.7%; }
+.sat.camera { left: 80.3%; top: 32%; }
+.fan-cap { margin-top: 18px; text-align: center; font-size: .86rem; color: var(--meta); }
+
+/* The three tabs, side by side, each with the icon the tab bar uses and one live
+   figure from that tab. */
+.tabs { margin-top: clamp(48px, 7vw, 80px); display: grid; border-top: 1px solid var(--rule-section); }
+@media (min-width: 780px) { .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tab { display: grid; gap: 10px; align-content: start; padding: 26px 0; border-bottom: 1px solid var(--rule-faint); }
+@media (min-width: 780px) {
+  .tab { padding: 28px 28px 30px; border-bottom: 0; border-left: 1px solid var(--rule-faint); }
+  .tab:first-child { border-left: 0; padding-left: 0; }
+  .tab:last-child { padding-right: 0; }
+}
+.tab-head { display: flex; align-items: center; gap: 12px; }
+.tab-head .ic { font-size: 1.7rem; color: var(--pine); }
+.tab-head b { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; }
+.tab p { color: var(--prose); font-size: .98rem; }
+.tab .live { margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--stroke); display: grid; gap: 6px; }
+.tab .live .fig { font-size: 1.45rem; font-weight: 800; letter-spacing: -.03em; }
+.tab .live small { font-size: .82rem; color: var(--meta); }
+.tab .go { margin-top: 4px; font-size: .88rem; font-weight: 600; color: var(--pine); }
+.tab:hover .go { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ------------------------------------------------------------------ gauge */
+/* GaugeBar: a capsule, a track tinted by its own colour, a gradient fill, copper
+   when over. The one progress mark on the page. */
+.gauge { height: 8px; border-radius: 999px; background: rgba(20, 107, 84, .14); overflow: hidden; }
+.gauge i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, rgba(20, 107, 84, .6), var(--pine)); transition: width .8s var(--ease); }
+
+/* ------------------------------------------------------------ a tab, told */
+section.band { border-top: 1px solid var(--rule-section); }
+section[id] { scroll-margin-top: var(--top); }
+.band-head { padding-block: clamp(56px, 8vw, 96px) 8px; }
+.kick { display: flex; align-items: center; gap: 9px; }
+.kick .ic { font-size: 1.15rem; color: var(--pine); }
+.band h2, .day h2 {
+  margin-top: 12px; font-family: var(--round); font-weight: 800;
+  font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.02; letter-spacing: -.03em; max-width: 18ch;
+}
+h2 em { font-style: normal; color: var(--pine); }
+.lede { margin-top: 16px; color: var(--prose); font-size: 1.08rem; max-width: 34rem; }
+
+/* Three beats per tab: the tab as it is, an ask made from inside it, then the
+   tab keeping itself current. The phone holds still while the beats scroll. */
+.story { display: grid; gap: 28px; padding-block: 24px 8px; }
+.steps { display: grid; gap: 34px; }
+.step { display: grid; gap: 10px; max-width: 30rem; }
+.step .n { font-family: var(--round); font-variant-numeric: tabular-nums; font-size: .82rem; font-weight: 800; color: var(--pine); }
+.step h3 { font-family: var(--round); font-size: clamp(1.45rem, 2.8vw, 2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; }
+.step p { color: var(--prose); }
+.step .how { font-size: .9rem; color: var(--meta); }
+.stage { display: grid; justify-items: center; }
+
+/* ------------------------------------------------------ the phone, drawn */
+/* The phone holds a real capture of the tab. Over it, the two things the app
+   actually puts over a tab: the Ask Audel peek card rising from the tab bar, and
+   an iOS notification dropping from the top. Everything inside the screen is
+   measured in the app's own points: --pt is one point of a 402pt-wide screen. */
+.phone {
+  --ph: 640px;
+  height: var(--ph); aspect-ratio: 422 / 894; max-width: 100%;
+  padding: 2.37%; border-radius: 13.27% / 6.26%; background: #0A1512;
+  container-type: inline-size;
+}
+.screen {
+  --pt: calc(100cqw * .9526 / 402);
+  position: relative; height: 100%; overflow: hidden;
+  border-radius: 11.44% / 5.26%; background: var(--canvas);
+  font-size: calc(15 * var(--pt)); line-height: 1.4;
+}
+.screen > img { width: 100%; height: 100%; object-fit: cover; }
+.scrim { position: absolute; inset: 0; background: rgba(8, 20, 16, .22); transition: opacity .4s var(--ease); }
+
+.peek {
+  position: absolute; left: calc(8 * var(--pt)); right: calc(8 * var(--pt)); bottom: calc(96 * var(--pt));
+  background: var(--canvas); border-radius: calc(26 * var(--pt));
+  box-shadow: 0 calc(18 * var(--pt)) calc(40 * var(--pt)) calc(-14 * var(--pt)) rgba(8, 30, 22, .5);
+  display: flex; flex-direction: column; max-height: calc(640 * var(--pt));
+  transition: transform .55s var(--ease), opacity .4s var(--ease);
+}
+.peek .grab { width: calc(36 * var(--pt)); height: calc(5 * var(--pt)); border-radius: 9px; background: var(--rule-section); margin: calc(8 * var(--pt)) auto 0; }
+.thread {
+  flex: 1; min-height: 0; overflow: hidden; padding: calc(4 * var(--pt)) calc(14 * var(--pt)) calc(4 * var(--pt));
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.s { display: grid; grid-template-rows: 1fr; }
+.s > div { min-height: 0; overflow: hidden; }
+.s > div > * { margin-top: calc(10 * var(--pt)); }
+.armed .s { grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .5s var(--ease), opacity .4s var(--ease); }
+.armed .s.on { grid-template-rows: 1fr; opacity: 1; }
+.phone:not(.armed) .dotsrow { display: none; }
+
+/* CopilotMessageRow: the prompt in a pine bubble, the answer as plain text, and
+   what Audel did as a pine checkmark line. */
+.ask { display: flex; justify-content: flex-end; }
+.ask p { max-width: 82%; background: var(--pine); color: var(--on-pine); border-radius: calc(18 * var(--pt)); padding: calc(9 * var(--pt)) calc(13 * var(--pt)); line-height: 1.3; }
+.ask .with-photo { display: grid; justify-items: end; gap: calc(6 * var(--pt)); max-width: 82%; }
+.ask .with-photo p { max-width: none; }
+.snap {
+  width: calc(96 * var(--pt)); height: calc(120 * var(--pt)); border-radius: calc(12 * var(--pt)); position: relative;
+  background: #FBF8EF; border: 1px solid var(--rule-faint); transform: rotate(-2.5deg);
+  box-shadow: 0 calc(6 * var(--pt)) calc(14 * var(--pt)) calc(-8 * var(--pt)) rgba(20, 53, 42, .5);
+}
+.snap::before { content: ""; position: absolute; inset: 12% 10%; background: repeating-linear-gradient(transparent 0 14%, rgba(70, 105, 140, .28) 14% 15%); }
+.snap span { position: absolute; left: 12%; height: 2.4%; border-radius: 2px; background: rgba(30, 30, 30, .55); }
+.snap span:nth-child(1) { top: 18%; right: 34%; }
+.snap span:nth-child(2) { top: 33%; right: 20%; }
+.snap span:nth-child(3) { top: 48%; right: 40%; }
+.snap span:nth-child(4) { top: 63%; right: 26%; opacity: .22; }
+.snap span:nth-child(5) { top: 78%; right: 46%; }
+.reply { max-width: 96%; }
+.reply b { font-weight: 600; }
+.rec { display: flex; align-items: center; gap: calc(5 * var(--pt)); color: var(--pine); font-size: calc(13 * var(--pt)); font-weight: 600; }
+.dots { height: calc(16 * var(--pt)); display: flex; align-items: center; gap: calc(5 * var(--pt)); }
+.dots i { width: calc(6 * var(--pt)); height: calc(6 * var(--pt)); border-radius: 50%; background: var(--quiet); }
+.s.on .dots i { animation: dot 1.05s var(--ease) infinite; }
+.s.on .dots i:nth-child(2) { animation-delay: .15s; }
+.s.on .dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes dot { 0%, 100% { opacity: .35; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+
+.made { border-top: 1px solid var(--rule-section); padding-top: calc(9 * var(--pt)); }
+.made .wt { font-size: calc(10.5 * var(--pt)); }
+.made .big { font-family: var(--round); font-weight: 800; font-size: calc(30 * var(--pt)); letter-spacing: -.04em; line-height: 1; margin-top: calc(4 * var(--pt)); }
+.made .sub { font-size: calc(12.5 * var(--pt)); color: var(--meta); margin-top: calc(3 * var(--pt)); }
+.made .g { margin-top: calc(9 * var(--pt)); }
+.made .g-top { display: flex; justify-content: space-between; gap: 8px; font-size: calc(13.5 * var(--pt)); font-weight: 600; margin-bottom: calc(5 * var(--pt)); }
+.made .g-top span { font-weight: 500; color: var(--meta); }
+.made .gauge { height: calc(7 * var(--pt)); }
+.rows { margin-top: calc(6 * var(--pt)); }
+.row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-block: calc(6 * var(--pt)); border-top: 1px solid var(--stroke); font-size: calc(13.5 * var(--pt)); }
+.row b { font-weight: 600; }
+.row .r { text-align: right; font-family: var(--round); font-variant-numeric: tabular-nums; }
+.row .r small { display: block; font-family: var(--text); font-size: calc(11.5 * var(--pt)); color: var(--meta); }
+.row .t { font-family: var(--round); font-variant-numeric: tabular-nums; color: var(--meta); font-size: calc(12.5 * var(--pt)); min-width: calc(76 * var(--pt)); }
+.row .ev { flex: 1; min-width: 0; }
+.row .ev small { display: block; font-size: calc(11.5 * var(--pt)); color: var(--meta); }
+.pill { display: inline-block; font-size: calc(10.5 * var(--pt)); font-weight: 600; color: var(--copper); border: 1px solid rgba(176, 86, 47, .35); border-radius: 999px; padding: 0 calc(6 * var(--pt)); margin-left: calc(5 * var(--pt)); }
+
+/* CopilotComposer: white field, 24pt continuous corner, 1pt card stroke, a plus
+   on the left, a 34pt pine disc on the right holding a microphone until there
+   is something to send. */
+.compose {
+  margin: calc(8 * var(--pt)) calc(10 * var(--pt)) calc(10 * var(--pt));
+  display: flex; align-items: center; gap: calc(6 * var(--pt)); padding: calc(6 * var(--pt));
+  background: var(--canvas); border: 1px solid var(--rule-faint); border-radius: calc(24 * var(--pt));
+  transition: border-color .16s, box-shadow .16s;
+}
+.typing .compose { border-color: rgba(20, 107, 84, .55); box-shadow: 0 0 0 .5px rgba(20, 107, 84, .55); }
+.c-plus, .c-send { width: calc(34 * var(--pt)); height: calc(34 * var(--pt)); flex: none; display: grid; place-items: center; }
+.c-plus { color: var(--pine); font-size: calc(18 * var(--pt)); }
+.c-send { border-radius: 50%; background: var(--pine); color: var(--on-pine); }
+.c-send > span { grid-area: 1 / 1; display: grid; place-items: center; font-size: calc(15 * var(--pt)); transition: opacity .16s, transform .16s; }
+.c-send .up { opacity: 0; transform: scale(.7); }
+.ready .c-send .mic { opacity: 0; transform: scale(.7); }
+.ready .c-send .up { opacity: 1; transform: none; }
+.sending .c-send { transform: scale(.9); transition: transform .12s; }
+.c-line { flex: 1; min-width: 0; padding: calc(4 * var(--pt)) 0 calc(4 * var(--pt)) calc(2 * var(--pt)); line-height: 1.3; }
+.c-line .ph { color: var(--quiet); }
+.c-line .chip { display: inline-block; width: calc(20 * var(--pt)); height: calc(24 * var(--pt)); border-radius: 4px; background: #FBF8EF; border: 1px solid var(--rule-faint); vertical-align: middle; margin-right: calc(6 * var(--pt)); }
+.caret { display: inline-block; width: 2px; height: 1.1em; background: var(--pine); vertical-align: -.2em; margin-left: 1px; animation: caret 1.05s steps(1, end) infinite; }
+@keyframes caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+
+/* An iOS notification, as the system draws one: frosted, 20pt corners, the app
+   icon, the app name in small caps, a time, a title and a line. */
+.note {
+  position: absolute; left: calc(10 * var(--pt)); right: calc(10 * var(--pt)); top: calc(56 * var(--pt));
+  background: rgba(246, 247, 246, .94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: calc(20 * var(--pt)); padding: calc(11 * var(--pt)) calc(13 * var(--pt));
+  box-shadow: 0 calc(10 * var(--pt)) calc(28 * var(--pt)) calc(-10 * var(--pt)) rgba(8, 30, 22, .45);
+  display: grid; grid-template-columns: auto 1fr; gap: calc(3 * var(--pt)) calc(10 * var(--pt));
+  font-size: calc(14 * var(--pt)); line-height: 1.3;
+  transition: transform .55s var(--ease), opacity .4s var(--ease);
+}
+.note .appi { grid-row: span 3; width: calc(36 * var(--pt)); height: calc(36 * var(--pt)); border-radius: 22.5%; }
+.note .top { display: flex; justify-content: space-between; font-size: calc(12 * var(--pt)); color: var(--meta); letter-spacing: .02em; }
+.note b { font-weight: 600; }
+.note .acts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(6 * var(--pt)); margin-top: calc(8 * var(--pt)); }
+.note .acts span { text-align: center; padding: calc(7 * var(--pt)) 0; border-radius: calc(12 * var(--pt)); background: rgba(20, 53, 42, .07); font-weight: 600; font-size: calc(13 * var(--pt)); }
+
+/* Beats. Without the script every overlay is shown, so a still page shows the
+   answer. With it, the phone starts bare and the scroll brings each one in. */
+.armed.beat-0 .scrim, .armed.beat-2 .scrim { opacity: 0; }
+.armed.beat-0 .peek, .armed.beat-2 .peek { transform: translateY(115%); opacity: 0; }
+.armed.beat-0 .note, .armed.beat-1 .note { transform: translateY(-160%); opacity: 0; }
+.phone:not(.armed) .note { display: none; }
+
+/* Pinned: set by script only, so a page without it never gets an empty sticky
+   column. Wide screens scroll the beats on the left beside a phone that holds
+   still on the right; narrow screens hold the phone at the top and scroll the
+   beats underneath it, which is where a thumb reads anyway. */
+.pinned .story { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) {
+  .pinned .story { grid-template-columns: minmax(0, 1fr) auto; gap: 0 64px; }
+  .pinned .stage {
+    grid-column: 2; grid-row: 1; position: sticky; align-self: start;
+    --ph: min(660px, calc(100vh - var(--top) - 56px));
+    top: calc(var(--top) + (100vh - var(--top) - var(--ph)) / 2);
+  }
+  .pinned .stage .phone { --ph: min(660px, calc(100vh - var(--top) - 56px)); }
+  .pinned .steps { grid-column: 1; grid-row: 1; gap: 0; }
+  .pinned .step { min-height: 78vh; align-content: center; }
+  .pinned .steps::after { content: ""; height: 14vh; }
+}
+/* Stepper: phones and narrow windows. Pinning a phone-sized phone on a phone
+   left the story text scrolling up into a hard edge under it. Here nothing
+   sticks: the phone sits in the page once, the three beats are a control under
+   it, and the text changes in place. Tap a beat or swipe the phone; it also
+   plays through on its own once the phone is in view. */
+.stepper .story { gap: 14px; }
+/* The phone, the control and the step's text have to fit on one screen
+   together, so the phone takes what is left after the header and about 190px
+   of reading, and never more than the width allows. */
+.stepper .stage .phone {
+  --ph: min(560px, max(330px, calc(100svh - var(--top) - 190px)), calc((100vw - 48px) * 894 / 422));
+}
+.stepper .steps { display: grid; gap: 0; }
+.stepper .step {
+  grid-area: 1 / 1; visibility: hidden; opacity: 0;
+  transition: opacity .3s var(--ease), visibility 0s .3s;
+}
+.stepper .step.is-live { visibility: visible; opacity: 1; transition: opacity .3s var(--ease); }
+.stepper .step .n { display: none; }
+.stepper .stage { touch-action: pan-y; }
+
+.ctl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ctl button {
+  appearance: none; border: 0; background: none; padding: 8px 0 4px; margin: 0; cursor: pointer;
+  display: grid; gap: 7px; text-align: left; font: inherit; color: var(--meta);
+  font-size: .8rem; font-weight: 600;
+}
+.ctl button[aria-current="step"] { color: var(--pine); }
+.ctl .bar { height: 3px; border-radius: 999px; background: var(--rule-faint); overflow: hidden; }
+.ctl .bar i { display: block; height: 100%; width: 0; background: var(--pine); border-radius: 999px; }
+.ctl button.done .bar i { width: 100%; }
+.ctl button[aria-current="step"] .bar i { width: 100%; transition: width var(--hold, 0s) linear; }
+.ctl button[aria-current="step"].waiting .bar i { width: 0; transition: none; }
+.ctl button:focus-visible { outline-offset: 2px; }
+
+@media (max-width: 899px) { .stage .phone { --ph: min(600px, calc((100vw - 48px) * 894 / 422)); } }
+
+/* After the beats: the rest of the tab, shortened to what it most needs said. */
+.after { display: grid; gap: 28px; padding-block: 36px clamp(64px, 9vw, 104px); }
+@media (min-width: 900px) { .after { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; } }
+.points { border-top: 1px solid var(--rule-section); }
+.after > .points:only-child { grid-column: 1 / -1; }
+@media (min-width: 900px) { .after > .points:only-child { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 32px; } }
+.point { display: grid; gap: 4px; padding-block: 15px; border-bottom: 1px solid var(--rule-faint); }
+.point b { font-weight: 600; letter-spacing: -.01em; }
+.point span { color: var(--prose); font-size: .96rem; }
+.point q { quotes: "\201C" "\201D"; color: var(--label); }
+
+
+.sources-h { font-size: 1.1rem; font-weight: 700; letter-spacing: -.015em; }
+.sources-h + p { color: var(--prose); font-size: .96rem; margin-top: 6px; }
+
+/* ---------------------------------------------------------- connectors */
+/* The marketplace. Each app is a tile with a monogram in its own colour, the
+   app's name, and what it feeds a goal, filtered by the kind of number it
+   keeps. The tiles are the one grid of objects on the page, so they are the one
+   place with a border. */
+.connectors { border-top: 1px solid var(--rule-section); padding-block: clamp(56px, 8vw, 96px); }
+.connectors h2 {
+  margin-top: 12px; font-family: var(--round); font-weight: 800;
+  font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.02; letter-spacing: -.03em; max-width: 18ch;
+}
+.market { margin-top: 34px; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filters button {
+  appearance: none; font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer;
+  padding: 7px 14px; border-radius: 999px; border: 1px solid var(--rule-faint);
+  background: var(--canvas); color: var(--prose); transition: background .15s, color .15s, border-color .15s;
+}
+.filters button:hover { border-color: var(--pine); color: var(--pine); }
+.filters button[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--on-pine); }
+.conns { margin-top: 22px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+.conn {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; align-items: center;
+  padding: 16px; border: 1px solid var(--rule-faint); border-radius: 18px; background: var(--canvas);
+}
+.conn[hidden] { display: none; }
+.conn .logo {
+  grid-row: span 3; width: 48px; height: 48px; border-radius: 22.5%;
+  display: grid; place-items: center; font-family: var(--round); font-weight: 900; font-size: 1.4rem;
+}
+.c-name { font-weight: 700; letter-spacing: -.01em; }
+.c-feeds { font-size: .88rem; color: var(--prose); }
+.c-cat { font-size: .76rem; color: var(--meta); }
+.hub {
+  margin-top: 28px; display: inline-flex; align-items: center; gap: 14px;
+  padding: 12px 18px 12px 12px; border: 1px solid var(--rule-faint); border-radius: 18px;
+}
+.hub .hk { width: 44px; height: 44px; border-radius: 22.5%; background: var(--canvas); border: 1px solid var(--rule-faint); display: grid; place-items: center; }
+.hub .hk svg { width: 26px; height: 26px; }
+.hub b { display: block; font-weight: 700; }
+.hub small { font-size: .86rem; color: var(--prose); }
+.more { margin-top: 20px; font-size: .92rem; color: var(--meta); }
+a.inline { color: var(--pine); font-weight: 600; white-space: nowrap; }
+
+/* ------------------------------------------------------------ a day, told */
+.day { border-top: 1px solid var(--rule-section); background: var(--sunk); padding-block: clamp(56px, 8vw, 96px); }
+.timeline { margin-top: 40px; display: grid; }
+.moment {
+  display: grid; gap: 12px 28px; padding-block: 22px; border-top: 1px solid var(--rule-faint);
+}
+.moment:last-child { border-bottom: 1px solid var(--rule-faint); }
+@media (min-width: 820px) { .moment { grid-template-columns: 6.5rem minmax(0, 340px) minmax(0, 1fr); align-items: center; } }
+.moment .when { font-family: var(--round); font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.3rem; letter-spacing: -.02em; }
+.moment .what { display: grid; gap: 6px; }
+.moment .what b { font-weight: 700; letter-spacing: -.01em; }
+.moment .what p { color: var(--prose); font-size: .95rem; }
+.moment .tabchip { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 600; color: var(--pine); }
+
+/* The surfaces in the day are the system's, drawn small and plain. */
+.sys { font-size: 13.5px; line-height: 1.3; }
+.bn {
+  background: rgba(255, 255, 255, .96); border-radius: 18px; padding: 10px 12px;
+  box-shadow: 0 10px 24px -16px rgba(11, 43, 34, .45);
+  display: grid; grid-template-columns: auto 1fr; gap: 2px 10px;
+}
+.bn .appi { grid-row: span 3; width: 30px; height: 30px; border-radius: 22.5%; }
+.bn .top { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--meta); }
+.bn b { font-weight: 600; }
+.bn .acts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 7px; }
+.bn .acts span { text-align: center; padding: 5px 0; border-radius: 10px; background: rgba(20, 53, 42, .07); font-weight: 600; font-size: 12px; }
+
+.widget { background: var(--canvas); border-radius: 20px; padding: 12px 14px; box-shadow: 0 10px 24px -16px rgba(11, 43, 34, .45); max-width: 300px; }
+.widget .wt { font-size: 10px; }
+.widget ul { margin-top: 7px; display: grid; gap: 6px; }
+.widget li { display: flex; align-items: center; gap: 8px; }
+.widget .ck { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--quiet); flex: none; display: grid; place-items: center; font-size: 9px; color: var(--on-pine); }
+.widget li.done .ck { background: var(--pine); border-color: var(--pine); }
+.widget li.done span { color: var(--meta); text-decoration: line-through; }
+.widget li em { margin-left: auto; font-style: normal; font-family: var(--round); font-variant-numeric: tabular-nums; font-size: 11px; color: var(--meta); }
+
+.island { display: inline-flex; align-items: center; gap: 9px; background: #0A0D0C; color: #fff; border-radius: 999px; padding: 7px 14px 7px 8px; }
+.island .appi-s { width: 22px; height: 22px; border-radius: 22.5%; }
+.island .fig { color: #8FE3C5; font-weight: 700; }
+.activity { margin-top: 8px; background: rgba(28, 32, 30, .88); color: #fff; border-radius: 18px; padding: 10px 13px; display: grid; gap: 2px; max-width: 300px; }
+.activity small { color: rgba(255, 255, 255, .62); font-size: 11.5px; }
+
+.bubble { display: inline-block; background: var(--canvas); border-radius: 16px 16px 16px 5px; padding: 8px 12px; box-shadow: 0 8px 20px -16px rgba(11, 43, 34, .5); }
+.heard { background: var(--canvas); border-radius: 18px; padding: 11px 13px; box-shadow: 0 10px 24px -16px rgba(11, 43, 34, .45); display: grid; gap: 8px; max-width: 300px; }
+.heard small { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--meta); }
+.heard div { display: flex; gap: 8px; justify-content: flex-end; }
+.heard div span { font-weight: 600; padding: 5px 12px; border-radius: 999px; background: var(--sunk); font-size: 12.5px; }
+.heard div span.go { background: var(--pine); color: var(--on-pine); }
+
+
+/* The one filled surface. It keeps room on the right for the App Store badge,
+   which goes in when there is a listing to link to. */
+.close { padding-block: 0 clamp(56px, 8vw, 96px); }
+.close-card {
+  background: linear-gradient(135deg, var(--pine), var(--pine-deep)); color: var(--on-pine);
+  border-radius: 28px; padding: clamp(34px, 6vw, 72px);
+  display: grid; gap: 28px; align-items: center;
+}
+@media (min-width: 820px) { .close-card { grid-template-columns: minmax(0, 1fr) auto; } }
+.close-card h2 { margin: 0; font-family: var(--round); font-weight: 800; font-size: clamp(2rem, 4.4vw, 3.2rem); line-height: 1.02; letter-spacing: -.03em; color: var(--on-pine); max-width: 16ch; }
+.close-card p { margin-top: 12px; color: rgba(255, 255, 255, .8); max-width: 34rem; }
+.close-card .mark { width: 104px; height: 104px; border-radius: 50%; background: rgba(255, 255, 255, .12); display: grid; place-items: center; }
+.close-card .mark img { width: 100%; height: 100%; }
+
+footer { border-top: 1px solid var(--rule-section); padding-block: 32px 44px; }
+footer .legal a { color: var(--pine); font-weight: 600; }
+footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); }
+@media (min-width: 760px) { footer .wrap { grid-template-columns: auto minmax(0, 1fr); align-items: start; } footer .legal { justify-self: end; max-width: 34rem; text-align: right; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<!-- Glyphs drawn after the SF Symbols the app uses. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-card" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.6"/><path d="M2.5 9.6h19"/><path d="M6 15.2h4" stroke-linecap="round"/></g></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.3"/></g><circle cx="12" cy="12" r="1.9" fill="currentColor"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.6"/><path d="M3 9.2h18M8 2.8v3.4M16 2.8v3.4"/></g><g fill="currentColor"><circle cx="8" cy="13" r="1"/><circle cx="12" cy="13" r="1"/><circle cx="16" cy="13" r="1"/><circle cx="8" cy="16.6" r="1"/><circle cx="12" cy="16.6" r="1"/></g></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.6"/><path d="m3.5 17 5-5 4 4 2.6-2.6L20.5 18.5" stroke-linecap="round"/></g><circle cx="16" cy="9" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4.5 7.5h3l1.6-2.2h5.8l1.6 2.2h3a1.8 1.8 0 0 1 1.8 1.8v8.4a1.8 1.8 0 0 1-1.8 1.8h-15a1.8 1.8 0 0 1-1.8-1.8V9.3a1.8 1.8 0 0 1 1.8-1.8Z"/><circle cx="12" cy="13.2" r="3.4"/></g></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="8.6" y="2.6" width="6.8" height="12" rx="3.4" fill="currentColor"/><path d="M5.4 11v1a6.6 6.6 0 0 0 13.2 0v-1M12 18.8v2.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13.2V3.5M3.9 7.6 8 3.3l4.1 4.3" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 18 18"><path d="M9 3.2v11.6M3.2 9h11.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 14 14"><path d="M2.5 7.4 5.6 10.5 11.5 3.8" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top" id="top">
+      <img class="appicon" src="/audel-icon-144.png" width="26" height="26" alt="">
+      Audel
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#finances"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg><span>Finances</span></a>
+      <a href="#goals"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg><span>Goals</span></a>
+      <a href="#schedule"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span>Schedule</span></a>
+      <a class="extra" href="#day"><span>A day with Audel</span></a>
+      <a class="extra" href="#connectors"><span>Connectors</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ------------------------------------------------------------ masthead -->
+  <section class="masthead" aria-label="Reach your goals, each word lifted from a different kind of document">
+    <div class="scope" id="scope">
+      <div class="ground" id="ground"></div>
+      <div class="ring r0" id="ring0"></div>
+      <div class="ring r1" id="ring1"></div>
+      <div class="ring r2" id="ring2"></div>
+      <div class="grain"></div>
+      <h1 class="sr-only">Reach your goals</h1>
+      <div class="card"><span class="cue" aria-hidden="true"></span></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <h2>Your money, goals and schedule, <span>set up by asking</span></h2>
+          <p class="lede">
+            The button in the middle of the tab bar handles all three. Tell it
+            what you want and it builds the budget, goal or event, then keeps it
+            up to date from your accounts and apps.
+          </p>
+        </div>
+        <figure>
+          <div class="fan" aria-hidden="true">
+            <div class="fan-arc"></div>
+            <span class="sat photo"><i><svg class="ic"><use href="#i-photo"/></svg></i>Photo</span>
+            <span class="sat speak"><i><svg class="ic"><use href="#i-mic"/></svg></i>Speak</span>
+            <span class="sat camera"><i><svg class="ic"><use href="#i-camera"/></svg></i>Camera</span>
+            <span class="disc"><img src="/audel-mark-256.png" alt=""></span>
+          </div>
+          <figcaption class="fan-cap">Touch and hold the Audel button, then slide to Photo, Speak or Camera.</figcaption>
+        </figure>
+      </div>
+
+      <div class="tabs">
+        <a class="tab" href="#finances">
+          <div class="tab-head"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg><b>Finances</b></div>
+          <p>Every account in one place, and one number out of it: what you can still spend this month.</p>
+          <div class="live"><span class="fig">$2,480.00</span><small>left to spend &middot; 18 days to go</small></div>
+          <span class="go">Lock down your money</span>
+        </a>
+        <a class="tab" href="#goals">
+          <div class="tab-head"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg><b>Goals</b></div>
+          <p>A target and a date, counted for you from the places the number already lives.</p>
+          <div class="live">
+            <span class="fig">$7,800 <small>of $10,000</small></span>
+            <div class="gauge"><i style="width:78%"></i></div>
+          </div>
+          <span class="go">Lock down your goals</span>
+        </a>
+        <a class="tab" href="#schedule">
+          <div class="tab-head"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><b>Schedule</b></div>
+          <p>Events, reminders and the routines you repeat every week, in one list for today.</p>
+          <div class="live"><span class="fig">12:30 PM</span><small>Next: Lunch with Sam at Nopa</small></div>
+          <span class="go">Lock down your schedule</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ finances -->
+  <section class="band" id="finances">
+    <div class="wrap">
+      <div class="band-head">
+        <div class="kick"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg><span class="wt">Finances</span></div>
+        <h2><em>Lock down</em> your money</h2>
+      </div>
+
+      <div class="story">
+        <div class="stage">
+          <div class="phone" data-said="Get my emergency fund to $10,000 by December. Make me a budget.">
+            <div class="screen">
+              <img src="/screens/finances.png" width="402" height="874" alt="Audel's Finances tab on its Transactions section: a prompt to review two unbudgeted transactions, then recent transactions with dates and categories.">
+              <div class="scrim"></div>
+              <div class="note" aria-label="Notification">
+                <img class="appi" src="/audel-icon-144.png" alt="">
+                <span class="top"><span>AUDEL</span><span>now</span></span>
+                <b>Whole Foods Market &middot; $84.20</b>
+                <span>Filed under Groceries. $155.42 left this month.</span>
+              </div>
+              <div class="peek" aria-label="Ask Audel">
+                <span class="grab"></span>
+                <div class="thread">
+                  <div class="s"><div><div class="ask"><p>Get my emergency fund to $10,000 by December. Make me a budget.</p></div></div></div>
+                  <div class="s dotsrow"><div><p class="dots"><i></i><i></i><i></i></p></div></div>
+                  <div class="s"><div><p class="reply">That is <b>$733.33 a month</b> for three months, and it fits. Dining and Shopping come down to make room.</p></div></div>
+                  <div class="s"><div>
+                    <div class="made">
+                      <p class="wt">Monthly plan</p>
+                      <p class="big fig">$733.33</p>
+                      <p class="sub">a month &middot; $2,200 to go by 31 December</p>
+                      <div class="rows">
+                        <div class="row"><b>Dining</b><span class="r">$240.00<small>was $300.00</small></span></div>
+                        <div class="row"><b>Shopping</b><span class="r">$180.00<small>was $250.00</small></span></div>
+                      </div>
+                    </div>
+                  </div></div>
+                  <div class="s"><div><p class="rec"><svg class="ic"><use href="#i-check"/></svg>Goal updated &middot; 2 budgets changed</p></div></div>
+                </div>
+                <div class="compose">
+                  <span class="c-plus"><svg class="ic"><use href="#i-plus"/></svg></span>
+                  <p class="c-line"><span class="ph">Ask Audel anything</span><span class="typed"></span><i class="caret"></i></p>
+                  <span class="c-send"><span class="mic"><svg class="ic"><use href="#i-mic"/></svg></span><span class="up"><svg class="ic"><use href="#i-up"/></svg></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step" data-beat="0">
+            <span class="n">1</span>
+            <h3>All your accounts in one list</h3>
+            <p>Transactions from every account land in Finances as they clear. Home turns them into one number: what you can still spend this month.</p>
+          </div>
+          <div class="step" data-beat="1">
+            <span class="n">2</span>
+            <h3>Asking for a budget</h3>
+            <p>Audel reads the balances and the bills already coming, works out what the goal needs each month, and lowers the budgets that need to come down.</p>
+            <p class="how">Typed into Ask Audel, from inside Finances.</p>
+          </div>
+          <div class="step" data-beat="2">
+            <span class="n">3</span>
+            <h3>Keeping the budget current</h3>
+            <p>Each purchase is filed as it clears and its budget updates with it, so the amount left to spend stays accurate through the month.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="after">
+        <div class="points">
+          <div class="point"><b>Recurring bills detected</b><span><q>Two similar monthly charges, or three weekly ones, and this fills itself in.</q> Bills are set aside before the number is shown.</span></div>
+          <div class="point"><b>Reimbursements net out</b><span>Link the Venmo or Zelle that paid you back to the dinner it covers, and the dinner counts at its real cost.</span></div>
+          <div class="point"><b>Merchant rules</b><span>Move one transaction and make it a rule for that merchant, past and future.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------------- goals -->
+  <section class="band" id="goals">
+    <div class="wrap">
+      <div class="band-head">
+        <div class="kick"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg><span class="wt">Goals</span></div>
+        <h2><em>Lock down</em> your goals</h2>
+      </div>
+
+      <div class="story">
+        <div class="stage">
+          <div class="phone" data-said="Count my gym visits. Four a week.">
+            <div class="screen">
+              <img src="/screens/goals.png" width="402" height="874" alt="Audel's Goals tab grouped by cadence: a daily group holding protein at 128g of 140g, a weekly group at 70 percent holding a 14-of-20-mile run, and a monthly group at 78 percent holding an emergency fund at $7,800 of $10,000.">
+              <div class="scrim"></div>
+              <div class="note" aria-label="Notification">
+                <img class="appi" src="/audel-icon-144.png" alt="">
+                <span class="top"><span>AUDEL</span><span>6:12 PM</span></span>
+                <b>Gym visit counted</b>
+                <span>You arrived. Gym visits: 1 of 4 this week.</span>
+              </div>
+              <div class="peek" aria-label="Ask Audel">
+                <span class="grab"></span>
+                <div class="thread">
+                  <div class="s"><div><div class="ask"><p>Count my gym visits. Four a week.</p></div></div></div>
+                  <div class="s dotsrow"><div><p class="dots"><i></i><i></i><i></i></p></div></div>
+                  <div class="s"><div><p class="reply">Done. Pin the gym once, and every visit counts itself when you arrive.</p></div></div>
+                  <div class="s"><div>
+                    <div class="made">
+                      <p class="wt">Weekly</p>
+                      <div class="g">
+                        <div class="g-top">Gym visits <span class="fig">0 of 4</span></div>
+                        <div class="gauge"><i style="width:0%"></i></div>
+                      </div>
+                      <div class="rows"><div class="row"><span class="ev">Counts when you arrive and stay</span><span class="r">Place</span></div></div>
+                    </div>
+                  </div></div>
+                  <div class="s"><div><p class="rec"><svg class="ic"><use href="#i-check"/></svg>Goal created</p></div></div>
+                </div>
+                <div class="compose">
+                  <span class="c-plus"><svg class="ic"><use href="#i-plus"/></svg></span>
+                  <p class="c-line"><span class="ph">Ask Audel anything</span><span class="typed"></span><i class="caret"></i></p>
+                  <span class="c-send"><span class="mic"><svg class="ic"><use href="#i-mic"/></svg></span><span class="up"><svg class="ic"><use href="#i-up"/></svg></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step" data-beat="0">
+            <span class="n">1</span>
+            <h3>Goals grouped by how often they reset</h3>
+            <p>Goals group by how often they reset, daily, weekly or monthly, and each group carries its own progress. Honey means close to the target and copper means over it.</p>
+          </div>
+          <div class="step" data-beat="1">
+            <span class="n">2</span>
+            <h3>Setting up a goal by voice</h3>
+            <p>Say what you want to count and Audel sets the goal up, including where the number will come from.</p>
+            <p class="how">Said out loud: hold the button, then Speak.</p>
+          </div>
+          <div class="step" data-beat="2">
+            <span class="n">3</span>
+            <h3>Progress that logs itself</h3>
+            <p>Arrive at the gym and stay for a moment, and the visit is counted without you opening the app.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="after">
+        <div>
+          <h3 class="sources-h">Where the numbers come from</h3>
+          <p>A goal can read its progress from any of these.</p>
+        </div>
+        <div class="points">
+          <div class="point"><b>Your accounts</b><span>A savings goal reads the balance. A spending goal watches the transactions land.</span></div>
+          <div class="point"><b>The apps you already use</b><span>Strava, Fitbit, Oura and the rest: whatever another app is already counting, a goal can read. <a class="inline" href="#connectors">See the connectors</a></span></div>
+          <div class="point"><b>A place</b><span>Arrive and stay about twenty seconds and it counts. The place stays encrypted on your iPhone.</span></div>
+          <div class="point"><b>Telling Audel directly</b><span>When nothing else knows, tell Audel in a sentence. A streak day is marked today or not at all, and your best run is kept.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ schedule -->
+  <section class="band" id="schedule">
+    <div class="wrap">
+      <div class="band-head">
+        <div class="kick"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span class="wt">Schedule</span></div>
+        <h2><em>Lock down</em> your schedule</h2>
+      </div>
+
+      <div class="story">
+        <div class="stage">
+          <div class="phone" data-photo data-said="Add the clear events from this planner photo.">
+            <div class="screen">
+              <img src="/screens/schedule.png" width="402" height="874" alt="Audel's Schedule tab: the week of September 2026 with today selected, then today's list with a completed morning run and logged breakfast, lunch with Sam, the gym and an evening reminder, followed by a weekly routine group at 75 percent.">
+              <div class="scrim"></div>
+              <div class="note" aria-label="Notification">
+                <img class="appi" src="/audel-icon-144.png" alt="">
+                <span class="top"><span>AUDEL</span><span>6:00 PM</span></span>
+                <b>Gym</b>
+                <span>Important. Rings through silent and Focus.</span>
+                <span class="acts"><span>Done</span><span>Snooze</span><span>Stop</span></span>
+              </div>
+              <div class="peek" aria-label="Ask Audel">
+                <span class="grab"></span>
+                <div class="thread">
+                  <div class="s"><div><div class="ask"><div class="with-photo">
+                    <div class="snap" role="img" aria-label="A photo of a handwritten planner page"><span></span><span></span><span></span><span></span><span></span></div>
+                    <p>Add the clear events from this planner photo.</p>
+                  </div></div></div></div>
+                  <div class="s dotsrow"><div><p class="dots"><i></i><i></i><i></i></p></div></div>
+                  <div class="s"><div><p class="reply">Added three. The fourth line was too faint to read, so I left it out.</p></div></div>
+                  <div class="s"><div>
+                    <div class="made">
+                      <p class="wt">This week</p>
+                      <div class="rows">
+                        <div class="row"><span class="t">Wed 9:30 AM</span><span class="ev"><b>Dentist</b></span></div>
+                        <div class="row"><span class="t">Thu 12:30 PM</span><span class="ev"><b>Lunch with Sam</b><small>Nopa</small></span></div>
+                        <div class="row"><span class="t">Fri 6:00 PM</span><span class="ev"><b>Gym</b><span class="pill">Important</span></span></div>
+                      </div>
+                    </div>
+                  </div></div>
+                  <div class="s"><div><p class="rec"><svg class="ic"><use href="#i-check"/></svg>3 events added</p></div></div>
+                </div>
+                <div class="compose">
+                  <span class="c-plus"><svg class="ic"><use href="#i-plus"/></svg></span>
+                  <p class="c-line"><span class="ph">Ask Audel anything</span><span class="chip" hidden></span><span class="typed"></span><i class="caret"></i></p>
+                  <span class="c-send"><span class="mic"><svg class="ic"><use href="#i-mic"/></svg></span><span class="up"><svg class="ic"><use href="#i-up"/></svg></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step" data-beat="0">
+            <span class="n">1</span>
+            <h3>Today's plan under the week</h3>
+            <p>Events, reminders and routines in one list. A routine is a checklist on the weekdays you choose, and the week's routines share one bar.</p>
+          </div>
+          <div class="step" data-beat="1">
+            <span class="n">2</span>
+            <h3>Adding events from a photo</h3>
+            <p>Photograph a paper planner or a flyer and Audel adds the events it can read. If a line is unreadable, Audel says so and leaves it out.</p>
+            <p class="how">Shown a photo: hold the button, then Camera.</p>
+          </div>
+          <div class="step" data-beat="2">
+            <span class="n">3</span>
+            <h3>Reminders that ring through Focus</h3>
+            <p>Mark a reminder important and it rings like an alarm, through silent and Focus. Answer it from the notification: Done, Snooze or Stop.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="after">
+        <div class="points">
+          <div class="point"><b>Repeat until it's done</b><span><q>Keep reminding me until I stop it</q>, every 30 minutes to every 4 hours.</span></div>
+          <div class="point"><b>Morning agenda and evening sweep</b><span>The day laid out when it starts, and what is still open before it ends.</span></div>
+          <div class="point"><b>Adding by hand</b><span>The add menu has New event, New reminder and New routine, or you can ask Audel instead.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- connectors -->
+  <section class="connectors" id="connectors">
+    <div class="wrap">
+      <p class="wt">Connectors</p>
+      <h2>Bring the apps you already use</h2>
+      <p class="lede">Connect Apple Health once, and a goal can read from any app that writes to it. Pick the source when you set the goal up: runs from Strava, sleep from Oura, protein from MyFitnessPal.</p>
+
+      <div class="hub">
+        <span class="logo hk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.3s-7.6-4.6-7.6-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.6 2.5c0 5.6-7.6 10.2-7.6 10.2Z" fill="#FF2D55"/></svg></span>
+        <span><b>Apple Health</b><small>One connection, read-only. Audel never writes back.</small></span>
+      </div>
+
+      <div class="market">
+        <div class="filters" role="group" aria-label="Filter connectors">
+          <button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="fitness">Fitness</button><button type="button" data-filter="sleep">Sleep and recovery</button><button type="button" data-filter="food">Food</button><button type="button" data-filter="body">Body</button><button type="button" data-filter="mind">Mind</button>
+        </div>
+        <ul class="conns">
+          <li class="conn" data-cat="fitness">
+            <span class="logo" style="background:#FC4C02;color:#fff" aria-hidden="true">S</span>
+            <span class="c-name">Strava</span>
+            <span class="c-feeds">Runs, rides and distance</span>
+            <span class="c-cat">Fitness</span>
+          </li>
+          <li class="conn" data-cat="fitness">
+            <span class="logo" style="background:#00B0B9;color:#fff" aria-hidden="true">F</span>
+            <span class="c-name">Fitbit</span>
+            <span class="c-feeds">Steps, active minutes, sleep</span>
+            <span class="c-cat">Fitness</span>
+          </li>
+          <li class="conn" data-cat="fitness">
+            <span class="logo" style="background:#111111;color:#fff" aria-hidden="true">G</span>
+            <span class="c-name">Garmin Connect</span>
+            <span class="c-feeds">Workouts, distance, pace</span>
+            <span class="c-cat">Fitness</span>
+          </li>
+          <li class="conn" data-cat="fitness">
+            <span class="logo" style="background:#1A1A1A;color:#fff" aria-hidden="true">P</span>
+            <span class="c-name">Peloton</span>
+            <span class="c-feeds">Classes and output</span>
+            <span class="c-cat">Fitness</span>
+          </li>
+          <li class="conn" data-cat="fitness">
+            <span class="logo" style="background:#111111;color:#fff" aria-hidden="true">N</span>
+            <span class="c-name">Nike Run Club</span>
+            <span class="c-feeds">Runs and weekly mileage</span>
+            <span class="c-cat">Fitness</span>
+          </li>
+          <li class="conn" data-cat="sleep">
+            <span class="logo" style="background:#2B2F36;color:#fff" aria-hidden="true">O</span>
+            <span class="c-name">Oura</span>
+            <span class="c-feeds">Sleep, readiness, HRV</span>
+            <span class="c-cat">Sleep and recovery</span>
+          </li>
+          <li class="conn" data-cat="sleep">
+            <span class="logo" style="background:#0B0B0B;color:#fff" aria-hidden="true">W</span>
+            <span class="c-name">WHOOP</span>
+            <span class="c-feeds">Recovery, strain, sleep</span>
+            <span class="c-cat">Sleep and recovery</span>
+          </li>
+          <li class="conn" data-cat="food">
+            <span class="logo" style="background:#0072CE;color:#fff" aria-hidden="true">M</span>
+            <span class="c-name">MyFitnessPal</span>
+            <span class="c-feeds">Calories and macros</span>
+            <span class="c-cat">Food</span>
+          </li>
+          <li class="conn" data-cat="food">
+            <span class="logo" style="background:#F26B21;color:#fff" aria-hidden="true">C</span>
+            <span class="c-name">Cronometer</span>
+            <span class="c-feeds">Protein, fibre, micronutrients</span>
+            <span class="c-cat">Food</span>
+          </li>
+          <li class="conn" data-cat="body">
+            <span class="logo" style="background:#0A0A0A;color:#fff" aria-hidden="true">W</span>
+            <span class="c-name">Withings</span>
+            <span class="c-feeds">Weight and body composition</span>
+            <span class="c-cat">Body</span>
+          </li>
+          <li class="conn" data-cat="mind">
+            <span class="logo" style="background:#3B6FD8;color:#fff" aria-hidden="true">C</span>
+            <span class="c-name">Calm</span>
+            <span class="c-feeds">Mindful minutes</span>
+            <span class="c-cat">Mind</span>
+          </li>
+          <li class="conn" data-cat="mind">
+            <span class="logo" style="background:#F47D31;color:#fff" aria-hidden="true">H</span>
+            <span class="c-name">Headspace</span>
+            <span class="c-feeds">Meditation streaks</span>
+            <span class="c-cat">Mind</span>
+          </li>
+        </ul>
+        <p class="more">Any app that writes to Apple Health works, not only these. Anything else can still be logged by telling Audel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- a day, told -->
+  <section class="day" id="day">
+    <div class="wrap">
+      <p class="wt">A day with Audel</p>
+      <h2>A Tuesday with Audel</h2>
+      <p class="lede">Most of this happens in notifications, widgets and Siri, without opening the app.</p>
+
+      <div class="timeline">
+        <div class="moment">
+          <span class="when">7:00</span>
+          <div class="sys bn" aria-hidden="true">
+            <img class="appi" src="/audel-icon-144.png" alt="">
+            <span class="top"><span>AUDEL</span><span>7:00 AM</span></span>
+            <b>Today: 4 things</b>
+            <span>Morning run, Lunch with Sam, Gym, Reconcile spending</span>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-cal"/></svg>Schedule</span><b>Morning agenda</b><p>A summary of the day's events, reminders and routines.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">7:48</span>
+          <div class="sys widget" aria-hidden="true">
+            <p class="wt">Today with Audel</p>
+            <ul>
+              <li class="done"><span class="ck"><svg class="ic"><use href="#i-check"/></svg></span><span>Morning run</span><em>7:00</em></li>
+              <li><span class="ck"></span><span>Lunch with Sam</span><em>12:30</em></li>
+              <li><span class="ck"></span><span>Gym</span><em>18:00</em></li>
+            </ul>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-cal"/></svg>Schedule</span><b>Completing a routine from the widget</b><p>The widget completes routines and reminders without opening the app. The run itself was logged by the app that tracked it.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">12:41</span>
+          <div class="sys bn" aria-hidden="true">
+            <img class="appi" src="/audel-icon-144.png" alt="">
+            <span class="top"><span>AUDEL</span><span>12:41 PM</span></span>
+            <b>Sushi Nakamura &middot; $88.00</b>
+            <span>Filed under Dining. $40.00 over for September.</span>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-card"/></svg>Finances</span><b>A purchase filed to Dining</b><p>Dining is already over budget, so its bar turns copper and keeps counting.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">13:05</span>
+          <div class="sys heard" aria-hidden="true">
+            <small>Heard</small>
+            <p>Move my dentist to Thursday morning.</p>
+            <div><span>Cancel</span><span class="go">Send</span></div>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-cal"/></svg>Schedule</span><b>Rescheduling by voice</b><p>Speech is turned into text on your iPhone. You see what it heard before anything is sent.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">18:00</span>
+          <div class="sys" aria-hidden="true">
+            <span class="island"><img class="appi-s" src="/audel-icon-144.png" alt="">Snoozed <span class="fig">8:51</span></span>
+            <div class="activity"><b>Gym</b><small>Snoozed &middot; Audel will alert you again</small></div>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-cal"/></svg>Schedule</span><b>A snoozed reminder</b><p>It stays on the Lock Screen and in the Dynamic Island until it rings again.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">18:12</span>
+          <div class="sys bn" aria-hidden="true">
+            <img class="appi" src="/audel-icon-144.png" alt="">
+            <span class="top"><span>AUDEL</span><span>6:12 PM</span></span>
+            <b>Gym visit counted</b>
+            <span>Gym visits: 3 of 4 this week.</span>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-target"/></svg>Goals</span><b>A gym visit counted on arrival</b><p>The goal updated when you arrived, without opening the app.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">20:40</span>
+          <div class="sys" aria-hidden="true"><span class="bubble">&ldquo;Show my Audel schedule&rdquo;</span></div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-cal"/></svg>Schedule</span><b>Checking the day with Siri</b><p>Check the day, finish a routine, or start a conversation with Audel through Siri and Shortcuts.</p></div>
+        </div>
+
+        <div class="moment">
+          <span class="when">21:00</span>
+          <div class="sys bn" aria-hidden="true">
+            <img class="appi" src="/audel-icon-144.png" alt="">
+            <span class="top"><span>AUDEL</span><span>9:00 PM</span></span>
+            <b>Still open today</b>
+            <span>Reconcile spending, and 2 transactions to review.</span>
+          </div>
+          <div class="what"><span class="tabchip"><svg class="ic"><use href="#i-card"/></svg>Finances &middot; Schedule</span><b>Evening sweep</b><p>Anything still open across the three tabs, before the day ends.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><img class="appicon" src="/audel-icon-144.png" width="26" height="26" alt="">Audel</span>
+    <p class="legal"><a href="/privacy">Privacy policy</a> &middot; <a href="mailto:support@audel.ai">support@audel.ai</a><br>Audel provides financial information, not financial advice. Figures shown are sample data.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  /* The header stays clear glass over the montage and frosts over once the page
+     proper is scrolling under it. */
+  var head = document.querySelector("header"), mast = document.querySelector(".masthead");
+  if (head && mast && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (e) { head.classList.toggle("stuck", !e[0].isIntersecting); },
+      { rootMargin: "-" + 70 + "px 0px 0px 0px" }).observe(mast);
+  }
+
+  /* Twelve kinds of document, each set in its own face, and each written three
+     times -- once for each word of the phrase. {W} marks where the word falls.
+
+     No card carries the whole phrase. Every one of them contains a single word,
+     used the way that document would actually use it: "reach" is a ball failing
+     to reach the far post in one and the reach of a river in another. The phrase
+     is spelled out by the sequence, not printed on every card.
+
+     These are kinds of document, not publications. Putting invented copy under a
+     real masthead would be inventing a source, which is not something to do on
+     the page arguing that Audel keeps your word. */
+  var WORDS = ["reach", "your", "goals"];
+
+  var DOCS = [
+    { font: "f-news", name: "Newspaper", kind: "Newsreader",
+      head: '<p class="small">City edition &middot; Sport &middot; Page 7</p><div class="rule"></div>',
+      bodies: [
+        '<p>The ball failed to {W} the far post, and with it went the last clear chance of a bleak afternoon.</p><p>Both sides will feel the table flatters the other.</p>',
+        '<p>"You get the season {W} preparation deserves," he said afterwards, and nobody in the room argued with him.</p><p>The ground emptied slowly.</p>',
+        '<p>Two {W} in four minutes settled a match that had promised nothing at all for an hour.</p><p>Attendance was given as eleven thousand and forty.</p>'
+      ],
+      tail: '<p>Elsewhere in the division two managers went inside a fortnight, and the league has declined to comment on either departure.</p>' },
+
+    { font: "f-wiki", name: "Encyclopaedia", kind: "Instrument Sans",
+      head: '<p class="small">From the free encyclopaedia</p><div class="rule"></div>',
+      bodies: [
+        '<p>The word is also used of distance: the {W} of a river is the stretch of water lying between two bends.</p><p>See also: <span class="lnk">navigation</span>; <span class="lnk">survey</span>.</p>',
+        '<p>In second-person framings &mdash; {W} plan, {W} record &mdash; the literature shifts from description into <span class="lnk">instruction</span>.</p><p>The shift is rarely marked.</p>',
+        '<p>{W} are distinguished from <span class="lnk">wishes</span> by the presence of a measurable target and a date by which it is to be met.</p><p>A frequently cited 1979 survey has never been located.</p>'
+      ],
+      tail: '<p>The distinction is not universally observed. Several standard works treat the two senses as interchangeable and pass over the difficulty in silence.</p>' },
+
+    { font: "f-dict", name: "Dictionary", kind: "Libre Baskerville",
+      head: '<p class="small">reach &middot; your &middot; goals</p><div class="rule"></div>',
+      bodies: [
+        '<p><b>{W}</b> <i>verb.</i> To arrive at; to stretch out so as to touch. <i>The river is not navigable above the weir.</i></p>',
+        '<p><b>{W}</b> <i>determiner.</i> Belonging to or associated with the person being addressed.</p>',
+        '<p><b>{W}</b> <i>plural noun.</i> The objects of a person&rsquo;s ambition or effort; the things aimed at.</p>'
+      ],
+      tail: '<p><i>Origin:</i> Middle English, from Old French, of Germanic origin; related to forms recorded in Old High German and Old Norse.</p>' },
+
+    { font: "f-book", name: "Book", kind: "EB Garamond",
+      head: '',
+      bodies: [
+        '<p>He could {W} the top shelf by then, which felt like the only measurable progress of that entire year.</p><p class="small">&mdash; 114 &mdash;</p>',
+        '<p>"It is {W} handwriting," she said, "and that is the part you keep managing to forget."</p><p class="small">&mdash; 114 &mdash;</p>',
+        '<p>The {W} were still there in the front of the notebook, unvisited since October and none the worse for it.</p><p class="small">&mdash; 114 &mdash;</p>'
+      ],
+      tail: '<p>The room had gone cold by then and neither of them thought to mention it for a long while afterwards.</p>' },
+
+    { font: "f-mag", name: "Magazine", kind: "Playfair Display",
+      head: '<p class="small">Feature &middot; January</p><div class="rule"></div>',
+      bodies: [
+        '<p>Six weeks is roughly how long enthusiasm lasts. After that only the things already within {W} tend to survive.</p>',
+        '<p>The question by March is never what {W} plan was in January. It is what has been counting since.</p>',
+        '<p>The industry sells {W} in January and memberships in February, which is a rather different business.</p>'
+      ],
+      tail: '<p>What follows is an account of eleven months, three cities, and one entirely ordinary notebook bought at a railway station.</p>' },
+
+    { font: "f-wire", name: "Press release", kind: "Courier Prime",
+      head: '<p class="small">FOR IMMEDIATE RELEASE &mdash; 0412 GMT</p><div class="rule"></div>',
+      bodies: [
+        '<p>THE SERVICE IS INTENDED TO {W} USERS WHO HAVE ABANDONED MANUAL TRACKING ENTIRELY.</p><p>ENDS.</p>',
+        '<p>THE NOTICE ADVISED CUSTOMERS THAT "{W} ACCOUNTS REMAIN READ-ONLY AT ALL TIMES."</p><p>ENDS.</p>',
+        '<p>THE COMPANY SAID {W} SET IN MARCH WERE MET SEVEN WEEKS AHEAD OF SCHEDULE.</p><p>NO FIGURES DISCLOSED.</p>'
+      ],
+      tail: '<p>MEDIA ENQUIRIES TO THE ADDRESS BELOW. NO FURTHER STATEMENT WILL BE ISSUED BEFORE THE END OF THE QUARTER.</p>' },
+
+    { font: "f-jrnl", name: "Journal", kind: "Lora",
+      head: '<p class="small">Vol. 41, No. 3 &middot; pp. 218-236</p><div class="rule"></div>',
+      bodies: [
+        '<p>Participants who did not {W} the stated target reported markedly higher confidence than the record supported.</p>',
+        '<p>Cards reading "write {W} target down" produced no measurable effect in the absence of an external record.</p>',
+        '<p>Where {W} were recorded externally, reported attainment tracked observed attainment closely.</p>'
+      ],
+      tail: '<p>Limitations are discussed at length in section five. The full instrument is reproduced in the appendix, with the coding frame.</p>' },
+
+    { font: "f-manl", name: "Manual", kind: "Bitter",
+      head: '<p class="small">Section 4 &middot; Setting up</p><div class="rule"></div>',
+      bodies: [
+        '<p>4.2 Do not proceed until every entry is within {W} of a source of measurement.</p><p>4.3 Review at the interval set.</p>',
+        '<p>4.1 Write {W} intended result in the space provided before continuing to the next section.</p>',
+        '<p>4.3 Review {W} at the interval you have set. Do not skip this step.</p>'
+      ],
+      tail: '<p>4.4 Retain this page. Replacement copies are not issued, and the serial number is required for any later enquiry.</p>' },
+
+    { font: "f-rept", name: "Annual report", kind: "DM Serif Display",
+      head: '<p class="small">Chairman&rsquo;s statement</p><div class="rule"></div>',
+      bodies: [
+        '<p>We did not {W} the third of the three commitments made to shareholders in January.</p>',
+        '<p>The board thanks you for {W} continued confidence through a year of uneven trading.</p>',
+        '<p>Two of the three {W} set out last year were met. The third was not, and is not restated here.</p>'
+      ],
+      tail: '<p>The accounts were approved by the board on the fourteenth of March and signed on its behalf by the company secretary.</p>' },
+
+    { font: "f-term", name: "Log file", kind: "Space Mono",
+      head: '<p class="small">audit.log &middot; tail -n 40</p><div class="rule"></div>',
+      bodies: [
+        '<p>11-14 06:12:04 geofence {W} confirmed dwell=00:07:12</p><p>11-14 06:12:05 queue flushed n=1</p>',
+        '<p>11-14 06:12:04 notify queued copy="{W} streak is intact" ch=push</p>',
+        '<p>11-14 09:01:55 {W} updated count=3 src=plaid delta=+250.00</p>'
+      ],
+      tail: '<p>11-14 09:02:01 sync ok bytes=4128 rtt=41ms</p><p>11-14 09:02:44 session closed reason=idle</p>' },
+
+    { font: "f-clsc", name: "Classical text", kind: "Cormorant Garamond",
+      head: '<p class="small">Book II, chapter ix</p><div class="rule"></div>',
+      bodies: [
+        '<p>And that which all things {W} after is for that cause rightly called the good.</p>',
+        '<p>Let {W} choice be governed by the end, and never the end by {W} choice.</p>',
+        '<p>The lesser {W} are ordered to the greater, and by no other arrangement.</p>'
+      ],
+      tail: '<p>But of these matters we have spoken sufficiently elsewhere, and it is now fitting that we return to the argument.</p>' },
+
+    { font: "f-form", name: "Official form", kind: "Archivo",
+      head: '<p class="small">Form G-1 &middot; For office use only</p><div class="rule"></div>',
+      bodies: [
+        '<p>B.2 State the date by which you expect to {W} the outcome entered above.</p><p>Incomplete forms are returned.</p>',
+        '<p>B.1 Enter {W} full name and the outcome you intend to achieve.</p><p>Use block capitals.</p>',
+        '<p>B.3 Where {W} are stated, a date of completion must also be entered for each.</p>'
+      ],
+      tail: '<p>B.4 Sign and date below. A form returned unsigned cannot be processed and will be sent back to the address given.</p>' }
+  ];
+
+  var scope = document.getElementById("scope");
+  var ground = document.getElementById("ground");
+
+  if (scope) {
+    var rings = [
+      document.getElementById("ring0"),
+      document.getElementById("ring1"),
+      document.getElementById("ring2")
+    ];
+    var built = [];     /* built[word][doc] -> the three ring copies */
+    var offsets = [];   /* offsets[word][doc] -> the translate that centres it */
+
+    /* Three by three of the same block, so there is always a full block of type
+       on every side of the focal point wherever the word falls in its line.
+       Only the middle tile is measured; the other eight are there to make the
+       coverage structural rather than a matter of where the line breaks. */
+    var tiled = function (doc, w) {
+      var body = doc.head + doc.bodies[w] + doc.tail;
+      var out = "";
+      for (var t = 0; t < 9; t++) {
+        /* The zero-height marker rides the baseline, which is the one line a
+           face actually agrees on. Reading its offsetTop is how the word gets
+           centred on its ink instead of on its line box. */
+        var word = '<span class="anchor"' + (t === 4 ? " data-anchor" : "") + ">"
+          + WORDS[w] + '<i class="bl"></i></span>';
+        out += '<div class="ptile">' + body.split("{W}").join(word) + "</div>";
+      }
+      return out;
+    };
+
+    WORDS.forEach(function (_, w) {
+      built.push(DOCS.map(function (doc) {
+        var html = tiled(doc, w);
+        return rings.map(function (ring) {
+          var el = document.createElement("div");
+          el.className = "page " + doc.font;
+          el.innerHTML = html;
+          el.setAttribute("aria-hidden", "true");
+          ring.appendChild(el);
+          return el;
+        });
+      }));
+    });
+
+    /* ------------------------------------------------------- measurement */
+    /* Two things were making the rack restless, and both were measurement
+       rather than motion.
+
+       The sizes were twelve numbers picked by eye, so a word visibly changed
+       size as it crossed faces. They are computed now: every face is scaled so
+       its capital height comes out the same, which is what "the same size"
+       means to the eye -- 42px of Newsreader and 42px of Space Mono are not the
+       same size in any sense a reader cares about.
+
+       And centring used the element's box, which is a line box: it carries the
+       face's own ascent and descent, and those vary enormously. So the word sat
+       dead centre by the numbers and visibly bounced. It is centred on its ink
+       now -- horizontally on the glyph bounds, vertically on the middle of the
+       capital band, which is fixed for every face and every word, so the
+       baseline holds still through the whole cycle. */
+
+    var gauge = document.createElement("canvas").getContext("2d");
+
+    var faceOf = function (el, size) {
+      var cs = getComputedStyle(el);
+      return cs.fontStyle + " " + cs.fontWeight + " " + (size || parseFloat(cs.fontSize)) + "px " + cs.fontFamily;
+    };
+
+    var place = function () {
+      /* The frame drives everything. Cap height is taken from the height of the
+         screen, not from a breakpoint, and the tile width follows the cap so
+         the measure stays around thirty characters however large the frame is
+         -- which is what keeps a 100vh frame reading as a page pushed in on,
+         rather than as a wall of type. */
+      var frameH = scope.clientHeight;
+      var narrow = scope.clientWidth <= 760;
+      var cap = Math.round(Math.max(narrow ? 20 : 26, Math.min(frameH * (narrow ? 0.05 : 0.055), narrow ? 40 : 56)));
+
+      /* The words are lowercase, and what reads as the size of a lowercase word
+         is its x-height, not its capitals: Garamond and Archivo set to the same
+         cap height still look a size apart. So every face is scaled to one
+         x-height, and the word holds the same size through every cut. */
+      var xh = Math.round(cap * 0.74);
+      scope.style.setProperty("--cap", cap + "px");
+      scope.style.setProperty("--tile-w", Math.round(cap * 38) + "px");
+      scope.style.setProperty("--h0", Math.round(xh * 1.2 / 0.6) + "px");
+
+      /* Scale each face to that x-height. The CSS sizes stay as the fallback
+         for anything without glyph metrics. */
+      built.forEach(function (docs) {
+        docs.forEach(function (copies) {
+          gauge.font = faceOf(copies[0], 100);
+          var ratio = gauge.measureText("x").actualBoundingBoxAscent / 100;
+          if (!ratio) return;
+          var size = Math.round(xh / ratio);
+          copies.forEach(function (el) { el.style.fontSize = size + "px"; });
+        });
+      });
+
+      /* Layout offsets, not client rects. The scope carries a scale() intro
+         animation, and a rect measured while that is running is measured
+         through the transform -- which put every page out by the same 32px and
+         broke the lock. offsetLeft/offsetTop are transform-free. */
+      var cx = scope.clientWidth / 2;
+      var cy = scope.clientHeight / 2;
+
+      offsets = built.map(function (docs) {
+        return docs.map(function (copies) {
+          var a = copies[0].querySelector("[data-anchor]");
+          var bl = a.querySelector(".bl");
+          if (!a || !bl) return "none";
+
+          gauge.font = faceOf(a);
+          var m = gauge.measureText(a.firstChild.nodeValue);
+
+          var known = m.actualBoundingBoxRight !== undefined;
+          var inkW = known ? m.actualBoundingBoxRight + m.actualBoundingBoxLeft : a.offsetWidth;
+          var inkX = known
+            ? a.offsetLeft + (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2
+            : a.offsetLeft + a.offsetWidth / 2;
+          /* Centred on the middle of the x-height band, which after the
+             scaling above is the same height in every face, so the word sits
+             on one line through every cut instead of hopping. */
+          var inkY = bl.offsetTop - xh / 2;
+
+          return {
+            t: "translate(" + Math.round(cx - inkX) + "px," + Math.round(cy - inkY) + "px)",
+            /* 0.6 because that is where r0 starts to fall away: the word ends
+               exactly as the sharp patch begins to go. */
+            w: Math.round((inkW / 2 + cap * 0.12) / 0.6)
+          };
+        });
+      });
+      /* One focal width per word, the widest of its twelve, so the sharp patch
+         holds still while the word holds and only changes when the word does. */
+      offsets.forEach(function (docs) {
+        var widest = docs.reduce(function (m, o) { return o.w > m ? o.w : m; }, 0);
+        docs.forEach(function (o) { o.w = widest; });
+      });
+    };
+
+    var show = function (w, d) {
+      var spot = offsets[w][d];
+      scope.style.setProperty("--w0", spot.w + "px");
+
+      built.forEach(function (docs, wi) {
+        docs.forEach(function (copies, di) {
+          var on = wi === w && di === d;
+          copies.forEach(function (el) {
+            el.classList.toggle("on", on);
+            if (on) el.style.transform = spot.t;
+          });
+        });
+      });
+      ground.className = "ground " + DOCS[d].font;
+    };
+
+    var BEAT = 130;   /* one document, held */
+    var timer = null;
+
+    /* The word is the constant and the documents are what move: "reach" holds
+       while all twelve cut under it, then "your" for twelve, then "goals".
+       The focus advances only once a word has been seen everywhere.
+
+       The nesting matters and is easy to get backwards. Document on the outside
+       and word on the inside reads as a cursor travelling along one page --
+       which is a different effect, and not this one. */
+    var run = function () {
+      var w = 0, d = 0;
+      show(w, d);
+      timer = setInterval(function () {
+        d++;
+        if (d >= DOCS.length) {
+          d = 0;
+          w = (w + 1) % WORDS.length;
+        }
+        show(w, d);
+      }, BEAT);
+    };
+
+    var stop = function () { clearInterval(timer); };
+
+    /* Fonts change metrics, so nothing can be measured until they have loaded. */
+    var init = function () {
+      place();
+      if (reduced.matches) {
+        /* No rack, but not a bare headline either: one page, held, with the word
+           that matters in focus. The composition survives; only the motion goes. */
+        show(WORDS.length - 1, 0);
+      } else {
+        run();
+      }
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(init);
+    } else {
+      init();
+    }
+
+    window.addEventListener("resize", function () {
+      place();
+    });
+
+    /* Nothing should be cutting away behind a reader who has gone elsewhere. */
+    document.addEventListener("visibilitychange", function () {
+      if (reduced.matches) return;
+      if (document.hidden) { stop(); } else { stop(); run(); }
+    });
+  }
+
+  /* Each tab's story, told in three beats over a real capture of the tab:
+     the tab alone, then the Ask Audel card (which types, sends and answers on
+     its own clock, because a sentence typed at the speed of a scroll wheel is
+     not typing), then a notification as the tab keeps itself current.
+
+     Wide windows scroll the beats beside a pinned phone. Narrow ones get a
+     stepper under a phone that stays in the page. Without the script, or with
+     reduced motion, every phone shows its answer and nothing moves. */
+  if (reduced.matches || !("IntersectionObserver" in window)) return;
+  var wide = window.matchMedia("(min-width: 900px)").matches;
+  document.documentElement.classList.add(wide ? "pinned" : "stepper");
+
+  var LABELS = ["The tab", "Ask Audel", "After"];
+
+  [].forEach.call(document.querySelectorAll(".story"), function (story) {
+    var phone = story.querySelector(".phone");
+    var steps = [].slice.call(story.querySelectorAll(".step"));
+    var rows = phone.querySelectorAll(".s");
+    var typed = phone.querySelector(".typed"), ph = phone.querySelector(".ph"), chip = phone.querySelector(".chip");
+    var said = phone.getAttribute("data-said");
+    var timers = [], beat = -1, answered = false;
+    var at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+    var on = function (el, yes) { el.classList.toggle("on", yes); };
+
+    phone.classList.add("armed", "beat-0");
+
+    function clearComposer() {
+      phone.classList.remove("ready", "typing", "sending");
+      typed.textContent = ""; ph.hidden = false; if (chip) chip.hidden = true;
+    }
+    function showAnswer() {
+      answered = true; clearComposer();
+      [].forEach.call(rows, function (el, k) { on(el, k !== 1); });
+    }
+    function ask() {
+      clearComposer();
+      [].forEach.call(rows, function (el) { on(el, false); });
+      var i = 0;
+      var tick = function () {
+        if (i === 0) { ph.hidden = true; phone.classList.add("typing", "ready"); if (chip) chip.hidden = false; }
+        typed.textContent = said.slice(0, ++i);
+        if (i < said.length) { at(30 + (said.charAt(i - 1) === " " ? 38 : 0) + Math.random() * 26, tick); return; }
+        at(400, function () { phone.classList.add("sending"); });
+        at(540, function () { clearComposer(); on(rows[0], true); });
+        at(860, function () { on(rows[1], true); });
+        at(1700, function () { on(rows[1], false); on(rows[2], true); });
+        at(2200, function () { on(rows[3], true); });
+        at(2800, function () { on(rows[4], true); answered = true; });
+      };
+      at(450, tick);
+    }
+
+    function go(n) {
+      if (n === beat) return;
+      var from = beat; beat = n;
+      timers.forEach(clearTimeout); timers = [];
+      phone.classList.remove("beat-0", "beat-1", "beat-2");
+      phone.classList.add("beat-" + n);
+      steps.forEach(function (s, k) { s.classList.toggle("is-live", k === n); });
+      if (n === 0) { answered = false; clearComposer(); [].forEach.call(rows, function (el) { on(el, false); }); }
+      if (n === 1) { if (from === 2 || answered) showAnswer(); else ask(); }
+      if (n === 2 && !answered) showAnswer();
+      if (ctl) paint();
+    }
+
+    var ctl = null, buttons = [], playing = false, advance = null;
+
+    if (wide) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) go(+e.target.getAttribute("data-beat")); });
+      }, { rootMargin: "-50% 0px -50% 0px" });
+      steps.forEach(function (s) { io.observe(s); });
+      go(0);
+      return;
+    }
+
+    /* ------------------------------------------------------------ stepper */
+    ctl = document.createElement("div");
+    ctl.className = "ctl";
+    ctl.setAttribute("role", "group");
+    ctl.setAttribute("aria-label", "Story steps");
+    LABELS.forEach(function (label, k) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = '<span class="bar"><i></i></span>' + label;
+      b.addEventListener("click", function () { stop(); go(k); });
+      ctl.appendChild(b); buttons.push(b);
+    });
+    story.insertBefore(ctl, story.querySelector(".steps"));
+
+    /* How long each beat holds while playing on its own: the typing and the
+       answer set the length of the middle one. */
+    function hold(n) { return n === 1 ? said.length * 52 + 3900 : n === 0 ? 2600 : 3800; }
+
+    function paint() {
+      buttons.forEach(function (b, k) {
+        b.classList.toggle("done", k < beat);
+        if (k === beat) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+        b.classList.remove("waiting");
+      });
+      var cur = buttons[beat];
+      if (!cur) return;
+      /* The live bar fills over the beat's hold while playing, and sits full
+         once you have taken over. */
+      if (playing) {
+        cur.style.setProperty("--hold", hold(beat) + "ms");
+        cur.classList.add("waiting");
+        void cur.offsetWidth;
+        cur.classList.remove("waiting");
+      } else {
+        cur.style.setProperty("--hold", "0s");
+      }
+    }
+
+    function stop() { playing = false; clearTimeout(advance); }
+    function play(from) {
+      playing = true; clearTimeout(advance);
+      beat = -1; go(from);
+      var next = function () {
+        if (!playing) return;
+        if (beat >= 2) { playing = false; paint(); return; }
+        advance = setTimeout(function () { go(beat + 1); next(); }, hold(beat));
+      };
+      next();
+    }
+
+    /* Swipe the phone sideways to move between beats; vertical scrolling is
+       left alone. */
+    var sx = null, sy = null;
+    var stage = story.querySelector(".stage");
+    stage.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    stage.addEventListener("touchend", function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      sx = null;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+      stop(); go(Math.max(0, Math.min(2, beat + (dx < 0 ? 1 : -1))));
+    }, { passive: true });
+
+    go(0);
+    var seen = false;
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !seen) { seen = true; play(0); }
+    }, { threshold: 0.55 }).observe(phone);
+  });
+})();
+</script>
+
+<script>
+(function () {
+  /* Connector filters: one kind at a time, or all of them. */
+  var box = document.querySelector(".filters");
+  if (!box) return;
+  var tiles = [].slice.call(document.querySelectorAll(".conn"));
+  box.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var f = b.getAttribute("data-filter");
+    [].forEach.call(box.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    tiles.forEach(function (t) { t.hidden = f !== "all" && t.getAttribute("data-cat") !== f; });
+  });
+})();
+</script>
+</body>
+</html>
