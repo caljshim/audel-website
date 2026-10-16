@@ -1,0 +1,159 @@
+/* audel.ai — the app's "Ledger pine" palette, one family, one column. */
+:root {
+  --pine: #146B54;
+  --pine-deep: #0B493A;
+  --ink: #14352A;
+  --muted: #4C6158;
+  --tint: #EEF1EE;
+  --rule: rgba(20, 53, 42, 0.14);
+  --honey: #B9871F;
+  --honey-deep: #8A6413;
+  --paper: #FFFFFF;
+  --measure: 40rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pine: #63D0A8;
+    --pine-deep: #3FA886;
+    --ink: #E6EEEA;
+    --muted: #A3B5AD;
+    --tint: #171D1A;
+    --rule: rgba(255, 255, 255, 0.12);
+    --honey: #E3BE5E;
+    --honey-deep: #E3BE5E;
+    --paper: #0D1210;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Schibsted Grotesk", ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+a { color: var(--pine); text-underline-offset: 0.18em; }
+a:hover { color: var(--pine-deep); }
+:focus-visible { outline: 3px solid var(--honey); outline-offset: 3px; border-radius: 4px; }
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.25rem 4rem;
+}
+
+/* Header: the wordmark and two links, nothing else. */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 0 3rem;
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.wordmark img { width: 2rem; height: 2rem; border-radius: 0.5rem; }
+.site-nav { display: flex; gap: 1.25rem; }
+.site-nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--ink); }
+
+/* Home hero: the streak ring from the app, open and then kept. */
+.hero { display: grid; gap: 2.5rem; padding-bottom: 3.5rem; }
+.rings { display: flex; gap: 1.5rem; align-items: center; }
+.ring {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.ring-open { border: 4px dashed var(--honey); color: var(--ink); }
+.ring-kept { background: var(--honey); color: var(--paper); }
+.ring-kept span { display: grid; justify-items: center; gap: 0.35rem; }
+.ring-kept svg { width: 1.4rem; height: 1.4rem; }
+.ring-arrow { color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) {
+  .ring-kept { animation: keep 700ms 400ms cubic-bezier(.2, .9, .3, 1.3) both; }
+  @keyframes keep { from { transform: scale(0.82); opacity: 0; } to { transform: none; opacity: 1; } }
+}
+
+h1 {
+  font-size: clamp(2.25rem, 6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-weight: 800;
+}
+.lede { font-size: 1.25rem; color: var(--muted); margin: 1rem 0 0; max-width: 34rem; }
+
+.features { display: grid; gap: 1.75rem; padding: 2.5rem 0; border-top: 1px solid var(--rule); }
+.feature h2 { font-size: 1.15rem; margin: 0 0 0.35rem; }
+.feature p { margin: 0; color: var(--muted); }
+
+.status {
+  background: var(--tint);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1rem;
+}
+.status p { margin: 0; }
+
+/* Long-form pages: the privacy policy and support. */
+.doc h1 { font-size: clamp(2rem, 5vw, 2.6rem); }
+.doc .updated { color: var(--muted); margin: 0.5rem 0 2.5rem; }
+.doc h2 { font-size: 1.3rem; margin: 2.75rem 0 0.75rem; letter-spacing: -0.01em; }
+.doc h3 { font-size: 1.05rem; margin: 1.75rem 0 0.4rem; }
+.doc p, .doc li { color: var(--ink); }
+.doc ul { padding-left: 1.25rem; }
+.doc li { margin: 0.35rem 0; }
+.summary {
+  background: var(--tint);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+.summary ul { margin: 0.5rem 0 0; }
+.summary p { margin: 0; font-weight: 600; }
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+.site-footer a { color: var(--muted); }
+
+/* Billing return pages: one way back into the app. */
+.cta {
+  display: inline-block;
+  background: var(--pine);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  margin-top: 1rem;
+}
+.cta:hover { background: var(--pine-deep); color: var(--paper); }
+.doc .note { color: var(--muted); font-size: 0.95rem; }

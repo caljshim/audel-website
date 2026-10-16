@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["43Z2N5D3UT.ai.audel.app"],
+        "components": [
+          { "/": "/plaid/*", "comment": "Plaid OAuth returns to the app" },
+          { "/": "/billing/*", "comment": "Back from Stripe Checkout or the customer portal" }
+        ]
+      }
+    ]
+  }
+}
