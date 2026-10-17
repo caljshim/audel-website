@@ -2,264 +2,142 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FFFFFF">
-<link rel="icon" href="/audel-icon-144.png" type="image/png">
-<link rel="apple-touch-icon" href="/audel-icon-144.png">
-<title>Privacy Policy · Audel</title>
-<meta name="description" content="How Audel collects, uses, shares and protects your information.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy policy · Audel</title>
+<meta name="description" content="What Audel collects, why, who processes it, and how to delete it.">
+<link rel="icon" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap">
-<style>
-/* The policy, set as a document: one readable column, the site's header and
-   tokens, a contents list, and nothing that competes with the text. */
-:root {
-  --canvas: #FFFFFF; --sunk: #F3F5F4; --pine: #146B54;
-  --label: #000000; --prose: #3E4140; --meta: #7A7A7F;
-  --rule-section: rgba(20, 53, 42, .16); --rule-faint: rgba(20, 53, 42, .11); --stroke: rgba(20, 53, 42, .06);
-  --text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Instrument Sans", system-ui, sans-serif;
-  --round: ui-rounded, "SF Pro Rounded", Nunito, "Instrument Sans", system-ui, sans-serif;
-  --head: 60px;
-  color-scheme: light;
-}
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--canvas); color: var(--label); font-family: var(--text); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
-a { color: var(--pine); }
-:focus-visible { outline: 2px solid var(--pine); outline-offset: 3px; border-radius: 4px; }
-.wrap { width: 100%; max-width: 760px; margin-inline: auto; padding-inline: 24px; }
-
-header {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; height: var(--head);
-  background: rgba(255, 255, 255, .86); backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
-  border-bottom: 1px solid var(--stroke);
-}
-header .wrap { max-width: 1140px; height: 100%; display: flex; align-items: center; justify-content: space-between; }
-.brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 1.05rem; color: var(--label); text-decoration: none; }
-.brand img { width: 26px; height: 26px; border-radius: 22.5%; }
-header nav a { font-size: .9rem; color: var(--prose); text-decoration: none; }
-header nav a:hover { color: var(--pine); }
-
-main { padding-block: 56px 80px; }
-.wt { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--pine); margin: 0; }
-h1 { font-family: var(--round); font-weight: 800; font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -.03em; margin: 10px 0 0; }
-.dates { margin-top: 12px; color: var(--meta); font-size: .92rem; }
-
-.summary { margin-top: 32px; padding: 22px 24px; background: var(--sunk); border-radius: 18px; }
-.summary h2 { margin: 0 0 10px; font-size: 1.05rem; }
-.summary ul { margin: 0; padding-left: 1.15em; display: grid; gap: 6px; }
-.summary li { color: var(--prose); }
-
-.toc { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--rule-section); }
-.toc ol { margin: 10px 0 0; padding-left: 1.4em; columns: 2 240px; column-gap: 32px; font-size: .95rem; }
-.toc li { break-inside: avoid; padding-block: 2px; }
-.toc a { text-decoration: none; }
-.toc a:hover { text-decoration: underline; }
-
-section { margin-top: 44px; scroll-margin-top: calc(var(--head) + env(safe-area-inset-top, 0px) + 16px); }
-h2 { font-family: var(--round); font-weight: 800; font-size: 1.45rem; letter-spacing: -.02em; line-height: 1.2; margin: 0; }
-h3 { font-size: 1.04rem; margin: 22px 0 0; }
-p, ul { margin: 12px 0 0; color: var(--prose); }
-ul { padding-left: 1.2em; }
-li { margin-top: 6px; }
-b, strong { color: var(--label); font-weight: 600; }
-
-.table { margin-top: 14px; overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: .94rem; }
-th, td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--rule-faint); }
-th { font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--meta); }
-td { color: var(--prose); }
-td:first-child { color: var(--label); font-weight: 600; white-space: nowrap; }
-
-footer { border-top: 1px solid var(--rule-section); padding-block: 28px 40px; font-size: .86rem; color: var(--meta); }
-footer .wrap { max-width: 1140px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-footer a { color: var(--pine); font-weight: 600; text-decoration: none; }
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<div class="page">
+  <header class="site-header">
+    <a class="wordmark" href="/"><img src="/icon.png" alt="">Audel</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="/terms">Terms</a>
+      <a href="/privacy" aria-current="page">Privacy</a>
+      <a href="/support">Support</a>
+    </nav>
+  </header>
 
-<header>
-  <div class="wrap">
-    <a class="brand" href="/"><img src="/audel-icon-144.png" width="26" height="26" alt="">Audel</a>
-    <nav><a href="/">Home</a></nav>
-  </div>
-</header>
+  <main class="doc">
+    <h1>Privacy policy</h1>
+    <p class="updated">Effective October 20, 2026</p>
 
-<main class="wrap">
-  <p class="wt">Legal</p>
-  <h1>Privacy Policy</h1>
-  <p class="dates">Effective October 1, 2026 &middot; Last updated October 1, 2026</p>
-
-  <div class="summary">
-    <h2>The short version</h2>
-    <ul>
-      <li>Audel collects what it needs to run your budgets, goals and schedule, and nothing for advertising.</li>
-      <li>Bank data comes through Plaid and is read-only. Audel never sees your bank login and cannot move money.</li>
-      <li>Apple Health data is read only for the types you allow, and is never used for advertising or sold.</li>
-      <li>When you use the assistant, your message and the data needed to answer it are sent to Google's Gemini API.</li>
-      <li>Your voice is transcribed on your iPhone, and places you pin stay encrypted on your iPhone.</li>
-      <li>There are no third-party analytics, advertising or tracking tools in the app.</li>
-      <li>You can clear your chat history or delete your account in the app at any time.</li>
-    </ul>
-  </div>
-
-  <nav class="toc" aria-label="Contents">
-    <p class="wt">Contents</p>
-    <ol>
-      <li><a href="#who">Who this policy covers</a></li>
-      <li><a href="#collect">Information Audel collects</a></li>
-      <li><a href="#connected">Information from services you connect</a></li>
-      <li><a href="#device">What stays on your device</a></li>
-      <li><a href="#assistant">The assistant</a></li>
-      <li><a href="#use">How your information is used</a></li>
-      <li><a href="#share">Who your information is shared with</a></li>
-      <li><a href="#retention">How long it is kept, and deleting it</a></li>
-      <li><a href="#security">Security</a></li>
-      <li><a href="#rights">Your choices and rights</a></li>
-      <li><a href="#children">Children</a></li>
-      <li><a href="#transfers">Where your information is processed</a></li>
-      <li><a href="#changes">Changes to this policy</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ol>
-  </nav>
-
-  <section id="who">
-    <h2>1. Who this policy covers</h2>
-    <p>Audel is an iPhone app for managing money, goals and schedules, and this website is its homepage. Audel is developed and operated by Caleb Shim, an individual developer based in the United States (&ldquo;I&rdquo;, &ldquo;me&rdquo;, &ldquo;we&rdquo; or &ldquo;Audel&rdquo; in this policy). I am responsible for the personal information described here.</p>
-    <p>This policy explains what information the Audel app and website collect, how it is used and shared, and the choices you have. By using Audel you agree to the practices described here.</p>
-  </section>
-
-  <section id="collect">
-    <h2>2. Information Audel collects</h2>
-    <h3>Account information</h3>
-    <p>You sign in to Audel with Apple or Google. Audel receives a unique account identifier and, if the provider shares it, your email address. If you use Apple&rsquo;s Hide My Email, Audel receives a private relay address instead of your real one. Audel does not receive your Apple or Google password.</p>
-    <h3>What you create in the app</h3>
-    <p>Budgets, categories and rules; goals, streaks and the progress you log; events, reminders and routines; and app settings such as which widgets appear on your Home screen and your notification preferences.</p>
-    <h3>Messages and photos you send to the assistant</h3>
-    <p>The text of your conversations with the assistant and any photos you attach (up to four per message), such as a picture of a paper planner you want turned into events.</p>
-    <h3>Technical information</h3>
-    <p>Like most online services, Audel&rsquo;s servers record basic technical information when the app connects to them, such as IP address, device and app version, request times and error details. This is used to keep the service running, to secure it and to fix problems. Audel also counts your assistant usage to enforce a monthly allowance.</p>
-    <p>Audel does not include third-party analytics, advertising, crash-reporting or tracking software, and does not track you across other companies&rsquo; apps or websites.</p>
-  </section>
-
-  <section id="connected">
-    <h2>3. Information from services you connect</h2>
-    <h3>Bank accounts, through Plaid</h3>
-    <p>If you connect a bank account, Audel uses <a href="https://plaid.com" rel="noopener">Plaid</a> to retrieve your account names, the last four digits of each account number, balances and transactions. You log in to your bank through Plaid, so Audel never sees or stores your bank credentials. Plaid&rsquo;s handling of your information is described in the <a href="https://plaid.com/legal/#end-user-privacy-policy" rel="noopener">Plaid End User Privacy Policy</a>.</p>
-    <p>Audel&rsquo;s access is read-only. Audel cannot move money, make payments, place trades or get around your bank&rsquo;s confirmations. You can also add transactions by hand instead of connecting a bank.</p>
-    <h3>Apple Health</h3>
-    <p>If you choose to, you can let Audel read data from Apple Health, such as steps, workouts, sleep, nutrition, weight or mindful minutes, including data written there by other apps you use. Audel only reads the types you allow in iOS, and only uses them to update the goals you point at them and to answer questions you ask about them. Audel never writes data back to Apple Health.</p>
-    <p>Apple Health data is never used for advertising, marketing or data mining, is never sold, and is not shared with anyone except as needed to provide the feature you are using, as described in <a href="#assistant">The assistant</a> and <a href="#share">Who your information is shared with</a>. You can change or withdraw access at any time in the iOS Settings or Health app.</p>
-    <h3>Location</h3>
-    <p>If you pin a place for a goal (for example your gym), your iPhone watches for arrivals at that place and Audel records that you arrived and when, so the goal can count the visit. See <a href="#device">What stays on your device</a>.</p>
-    <h3>Food lookups</h3>
-    <p>If you scan a food barcode, the barcode number is sent to <a href="https://world.openfoodfacts.org" rel="noopener">Open Food Facts</a> to look up its nutrition information. No account information is sent with it.</p>
-  </section>
-
-  <section id="device">
-    <h2>4. What stays on your device</h2>
-    <ul>
-      <li><b>Pinned places.</b> The location of a place you pin is stored encrypted on your iPhone. Audel does not collect your location history or a record of other places you go.</li>
-      <li><b>Your voice.</b> When you hold the Audel button to speak, your speech is turned into text on your iPhone. The audio is not sent to Audel. You see the transcript and choose whether to send it, and only the text you send leaves your device.</li>
-      <li><b>The microphone and camera</b> are used only while you are actively speaking or taking a photo for Audel.</li>
-    </ul>
-  </section>
-
-  <section id="assistant">
-    <h2>5. The assistant</h2>
-    <p>When you send a message to the assistant, Audel sends your message, any photos you attached and the information from your account needed to answer it (for example relevant transactions, budgets, goals, Apple Health values or events) to Google&rsquo;s <a href="https://ai.google.dev" rel="noopener">Gemini API</a>, which generates the response. Google processes this information under its <a href="https://ai.google.dev/gemini-api/terms" rel="noopener">Gemini API terms</a>.</p>
-    <p>If the assistant needs current information from the web, such as a race qualifying time or the nutrition facts of a food, it sends a search query to <a href="https://brave.com/search/api/" rel="noopener">Brave Search</a>. Search queries are written by the assistant for the lookup and do not include your account details.</p>
-    <p>The assistant asks for your confirmation before deleting goals, budgets or events. Audel does not use your information to train AI models.</p>
-  </section>
-
-  <section id="use">
-    <h2>6. How your information is used</h2>
-    <ul>
-      <li>To provide Audel&rsquo;s features: calculating what you have left to spend, filing transactions into budgets, tracking goal progress, keeping your schedule and sending the reminders and notifications you turn on.</li>
-      <li>To generate the assistant&rsquo;s responses and carry out the changes you ask it to make.</li>
-      <li>To keep Audel secure, prevent abuse and enforce usage limits.</li>
-      <li>To diagnose problems and improve how the app works.</li>
-      <li>To respond to you when you contact support.</li>
-      <li>To comply with the law.</li>
-    </ul>
-    <p>Audel does not sell your personal information, does not share it for targeted or cross-context behavioral advertising, and does not show ads.</p>
-  </section>
-
-  <section id="share">
-    <h2>7. Who your information is shared with</h2>
-    <p>Audel shares information only with the service providers that help run it, and only the information each one needs:</p>
-    <div class="table">
-      <table>
-        <thead><tr><th>Provider</th><th>What it does</th><th>What it receives</th></tr></thead>
-        <tbody>
-          <tr><td>Google Cloud</td><td>Hosts Audel&rsquo;s servers and database</td><td>The account data Audel stores</td></tr>
-          <tr><td>Google (Gemini API)</td><td>Generates assistant responses</td><td>Your messages, attached photos and the account data needed to answer them</td></tr>
-          <tr><td>Plaid</td><td>Connects your bank accounts</td><td>Your bank connection, if you choose to connect one</td></tr>
-          <tr><td>Apple and Google</td><td>Sign-in</td><td>The sign-in request; Audel receives your identifier and email from them</td></tr>
-          <tr><td>Brave Search</td><td>Web lookups for the assistant</td><td>Search queries, without account details</td></tr>
-          <tr><td>Open Food Facts</td><td>Barcode nutrition lookups</td><td>The barcode number you scan</td></tr>
-        </tbody>
-      </table>
+    <div class="summary">
+      <p>The short version</p>
+      <ul>
+        <li>Audel uses your data to run the app for you. It doesn't sell or share it, show you ads, or track you across other apps.</li>
+        <li>Bank connections are read-only. Audel can't move money.</li>
+        <li>Before the assistant first answers you, the app asks you to agree to your messages, and the data it needs to answer them, going to AI providers to write a reply.</li>
+        <li>We read conversations with the assistant, without your name or email, to find and fix its mistakes. You can turn this off in the app.</li>
+        <li>You can delete your account and everything in it from inside the app.</li>
+      </ul>
     </div>
-    <p>Audel may also disclose information if required by law or valid legal process, to protect the rights, safety or property of its users or others, or as part of a merger, acquisition or sale of the app, in which case this policy will continue to apply to your information or you will be notified of any change.</p>
-  </section>
 
-  <section id="retention">
-    <h2>8. How long it is kept, and deleting it</h2>
-    <p>Your information is kept for as long as you have an Audel account, so the app can show your history, budgets and progress.</p>
+    <p>Audel is an iPhone app for tracking goals, routines and personal finances, operated by Caleb Shim ("we", "us"). This policy explains what we collect when you use Audel, why, who helps us process it, and the choices you have. Questions go to <a href="mailto:support@audel.ai">support@audel.ai</a>.</p>
+
+    <h2>What we collect</h2>
+
+    <h3>Your account</h3>
+    <p>When you sign in with Google or Apple, we receive your name, email address and, from Google, your profile photo. We use these to identify your account and show your profile. If you choose Apple's "Hide My Email", we receive a private relay address instead of your real one. If you sign in with Apple, we also keep a token Apple gives us, stored encrypted, so that deleting your account can end Audel's access to your Apple sign-in too.</p>
+
+    <h3>What you put into Audel</h3>
+    <p>Your goals, routines, reminders, calendar events, check-ins, notes and progress logs, and the times you check things off. Audel uses the times you usually complete a routine to schedule reminders.</p>
+
+    <h3>Bank and card accounts</h3>
+    <p>If you connect a bank, we use <a href="https://plaid.com/legal/#end-user-privacy-policy">Plaid</a> to read your account names, balances and transactions, and, for investment and retirement accounts, your holdings and investment transactions. Your bank login goes to Plaid and your bank, never to us. Plaid gives us an access token for each connection, which we store encrypted. Access is read-only: Audel can see your accounts but can't make payments, transfers or trades. Plaid's handling of your data is covered by its own privacy policy.</p>
+
+    <h3>Payments</h3>
+    <p>If you subscribe, you pay through <a href="https://stripe.com/privacy">Stripe</a>, on a Stripe page. Your card details go to Stripe, never to us. We store only the ID Stripe gives your customer record and whether your subscription is active, and until when, so the app knows whether it's open to you. We give Stripe your name and email address, for receipts, and your Audel account ID, which links your payments to your account. Stripe's handling of your data is covered by its own privacy policy.</p>
+
+    <h3>Apple Health</h3>
+    <p>If you connect a goal to Apple Health, Audel reads the specific data you allow, such as workouts, steps, sleep or nutrition, and stores the values it needs to track that goal. Audel only reads Health data; it never writes to Apple Health. Health data is used to show your progress and, when you ask the assistant about it, the values it needs to answer are sent to the AI providers that write its replies (see How the assistant works). Those conversations are included in the copies we review to improve Audel, without your name or email, unless you turn that off (see Improving Audel). Health data is never used for advertising, never sold, and never shared with data brokers.</p>
+
+    <h3>Location</h3>
+    <p>If you set up a goal that counts visits to a place, such as the gym, your iPhone watches for arrivals at the place you choose. Audel records that a visit happened and when. Your coordinates stay on your device; we don't receive them.</p>
+
+    <h3>Photos, camera and voice</h3>
+    <p>Photos you attach to a chat with the assistant are uploaded and stored with your account so the assistant can read them. Voice input is transcribed on your iPhone; we receive the text, not the audio.</p>
+
+    <h3>Notifications</h3>
+    <p>If you allow notifications, your iPhone gives us a push token, which we store with your account and use only to send you Audel's notifications through Apple's push notification service.</p>
+
+    <h3>Usage needed to run the service</h3>
+    <p>We record how much of the assistant you use, to apply usage limits, and keep server logs for security and troubleshooting. Server logs include technical details such as your IP address, request times, and errors and crash reports the app sends us. Audel does not include any third-party analytics, advertising or tracking software.</p>
+
+    <h2>How the assistant works</h2>
+    <p>The first time you open the assistant, the app tells you what is sent where and asks you to agree. Until you do, the assistant doesn't answer and Audel doesn't send your data to any AI provider. You can take your agreement back at any time under Account &amp; sign-in.</p>
+    <p>When you message Audel's assistant, your message and the relevant parts of your Audel data (for example, the goals, transactions, balances or Health values it needs to answer) are sent to AI providers to generate a reply. We currently use <a href="https://policies.google.com/privacy">Google (Gemini)</a> and <a href="https://www.anthropic.com/legal/privacy">Anthropic (Claude)</a> through their paid APIs. When the assistant looks something up on the web, the search terms are sent to <a href="https://search.brave.com/help/privacy-policy">Brave Search</a>. To suggest which budget a new transaction belongs in, its merchant, amount, date and bank category, and the names of your budgets, are sent to <a href="https://typesafe.ai">TypeSafe</a>. We keep your chat history so you can see past conversations.</p>
+    <p>When you look up a packaged food by barcode or name, the barcode or search words are sent from our servers to <a href="https://world.openfoodfacts.org">Open Food Facts</a>. Nothing that identifies you is sent with them.</p>
+
+    <h2 id="improving-audel">Improving Audel</h2>
+    <p>To find where the assistant got something wrong and fix it, we review conversations with it. Each night, the previous day's messages are copied from our database to private storage in Google Cloud, with your name, email and account ID left out and replaced by a random label. Photos you attached are never copied, only how many there were. Message text can include whatever the assistant used to answer, such as amounts or Health values. We, and an AI model we use to help with this review (Anthropic's Claude), read these copies to find mistakes, and may turn a mistake into a test case built from made-up example data, never your own. The copies are deleted after 30 days.</p>
+    <p>This applies only to conversations from October 16, 2026 onward. You can turn it off at any time, including from the screen that first asks about the assistant: open your profile, tap Account &amp; sign-in, and switch off <em>Improve Audel with my conversations</em>. From then on your messages are excluded at the database level, and your chat history is still kept so you can see it.</p>
+
+    <h2>Who processes your data</h2>
+    <p>We share data only with the service providers that run Audel for us, and only what each needs:</p>
     <ul>
-      <li><b>Clear chat history</b> (in Settings) removes every message and image you sent the assistant, on your device and on Audel&rsquo;s servers. This cannot be undone.</li>
-      <li><b>Delete account</b> (in Settings) deletes your account and the data associated with it from Audel&rsquo;s servers. Copies in routine backups are removed as those backups expire.</li>
-      <li><b>Disconnect a bank</b> or <b>turn off Apple Health access</b> at any time to stop new data from arriving.</li>
+      <li>Google Cloud, which hosts our servers and database in the United States</li>
+      <li>Plaid, for bank and investment connections</li>
+      <li>Stripe, for subscription payments</li>
+      <li>Google and Anthropic, for the assistant's replies, and Anthropic to help review conversations (see Improving Audel)</li>
+      <li>Brave, for web searches the assistant makes</li>
+      <li>TypeSafe, for suggesting which budget a transaction belongs in</li>
+      <li>Open Food Facts, for food barcode and name lookups</li>
+      <li>Google and Apple, for signing in, and Apple, for delivering notifications</li>
     </ul>
-    <p>Some technical logs are kept for a limited period for security and troubleshooting, and information may be kept longer where the law requires it.</p>
-  </section>
+    <p>We don't sell your personal information or share it for advertising. We may disclose information if the law requires it.</p>
 
-  <section id="security">
-    <h2>9. Security</h2>
-    <p>Information is encrypted in transit between the app and Audel&rsquo;s servers and encrypted at rest in Audel&rsquo;s database. Access to production systems is restricted. No system is perfectly secure, but Audel works to protect your information and will notify you as required by law if a breach affects it.</p>
-  </section>
+    <h2>How we protect it</h2>
+    <p>Data is encrypted in transit and at rest. Our database sits on a private network with no public address, and our servers sign in to it without a stored password. Bank access tokens and Apple sign-in tokens are encrypted with a separate key. Each account's data is isolated at the database level, so one user can't read another's.</p>
 
-  <section id="rights">
-    <h2>10. Your choices and rights</h2>
-    <p>You can see and edit most of your information directly in the app, and delete it as described above. You can also email <a href="mailto:support@audel.ai">support@audel.ai</a> to:</p>
+    <h2>How long we keep it</h2>
+    <p>We keep your data for as long as you have an account. When you delete your account, your data is removed from our database immediately, your bank connections are revoked at Plaid, Audel's access to your Apple sign-in is revoked at Apple, and your subscription is cancelled and your customer record deleted at Stripe, so you're never charged again. Stripe keeps records of past payments as the law requires. Copies in our encrypted backups expire within 7 days. Server logs are kept for 30 days. Conversation copies made for review are deleted after 30 days.</p>
+
+    <h2>Your choices</h2>
     <ul>
-      <li>ask for a copy of the personal information Audel holds about you,</li>
-      <li>ask for information to be corrected or deleted,</li>
-      <li>object to or ask to restrict certain processing, or</li>
-      <li>ask any question about this policy.</li>
+      <li><strong>Delete your account:</strong> in the app, open your profile, tap Account &amp; sign-in, then Delete account. Or email us.</li>
+      <li><strong>The assistant and AI providers:</strong> switch off <em>Let Audel use its AI providers</em> under Account &amp; sign-in. The assistant stops answering and nothing more is sent to them.</li>
+      <li><strong>Disconnect a bank or Apple Health:</strong> email us to remove a bank connection, or turn off Health access in the iPhone's Settings app.</li>
+      <li><strong>Conversation review:</strong> switch off <em>Improve Audel with my conversations</em> under Account &amp; sign-in.</li>
+      <li><strong>Location, camera, microphone and notifications:</strong> change these at any time in the iPhone's Settings app.</li>
+      <li><strong>Access or correct your data:</strong> email us and we'll help.</li>
     </ul>
-    <p>Depending on where you live, including the European Economic Area, the United Kingdom and California, you may have additional rights under local law, and the right to complain to your local data protection authority. Audel will not treat you differently for exercising your rights. Requests will be answered within the time the law requires, and Audel may need to verify your identity first.</p>
-    <p>Where the GDPR applies, Audel processes your information to provide the service you asked for (performance of a contract), for its legitimate interests in keeping the service secure and working, with your consent for optional features such as Apple Health, location and the microphone, and to meet legal obligations.</p>
-  </section>
+    <p>Depending on where you live, you may have additional rights, such as to receive a copy of your data or to object to certain processing. Email us and we'll respond within 30 days.</p>
 
-  <section id="children">
-    <h2>11. Children</h2>
-    <p>Audel is not intended for children under 13, or under 16 where local law sets a higher age, and does not knowingly collect their personal information. If you believe a child has provided information to Audel, contact <a href="mailto:support@audel.ai">support@audel.ai</a> and it will be deleted.</p>
-  </section>
+    <h2 id="california">California residents</h2>
+    <p>If you live in California, the California Consumer Privacy Act gives you the right to:</p>
+    <ul>
+      <li><strong>Know</strong> what personal information we collect, use and disclose, and get a copy of it. This policy describes the categories: identifiers (name, email, account ID, IP address, push token), financial information (bank and investment data, subscription status), health information you connect, the content you create, and usage and diagnostic information. We collect them from you, your iPhone, and the services you connect, for the purposes described above.</li>
+      <li><strong>Delete</strong> your personal information. You can delete your account in the app at any time, or ask us to.</li>
+      <li><strong>Correct</strong> personal information that's inaccurate.</li>
+      <li><strong>Not be discriminated against</strong> for using any of these rights. We won't charge you a different price or give you a different service because you did.</li>
+    </ul>
+    <p><strong>We do not sell or share personal information</strong>, as the law defines those words, and haven't in the past 12 months. We use sensitive personal information, such as financial and health information, only to provide the service you asked for, so there is nothing to limit.</p>
+    <p>To make a request, email <a href="mailto:support@audel.ai">support@audel.ai</a> from the address on your Audel account, or use Delete account in the app. We'll confirm the request comes from you, by matching it to your account, before acting on it, and answer within 45 days. You can have an authorized agent make a request for you; we'll ask for proof that you gave them permission.</p>
 
-  <section id="transfers">
-    <h2>12. Where your information is processed</h2>
-    <p>Audel is operated from the United States and your information is processed and stored in the United States and in other countries where its service providers operate. Where required, appropriate safeguards are used for international transfers.</p>
-  </section>
+    <h2>Do Not Track</h2>
+    <p>Audel doesn't track you across other companies' apps or websites, so there is nothing for a browser's Do Not Track or Global Privacy Control signal to switch off. We treat every visitor as if one were on.</p>
 
-  <section id="changes">
-    <h2>13. Changes to this policy</h2>
-    <p>This policy may be updated as Audel changes. The date at the top shows when it was last updated. If a change is significant, you will be told in the app or by email before it takes effect.</p>
-  </section>
+    <h2>Children</h2>
+    <p>Audel is not intended for anyone under 18, because it connects to financial accounts. We don't knowingly collect information from children.</p>
 
-  <section id="contact">
-    <h2>14. Contact</h2>
-    <p>Questions, requests or concerns about your privacy can be sent to Caleb Shim at <a href="mailto:support@audel.ai">support@audel.ai</a>.</p>
-  </section>
-</main>
+    <h2>Changes</h2>
+    <p>If we change this policy, we'll update the date at the top and, for significant changes, let you know in the app before they take effect.</p>
 
-<footer>
-  <div class="wrap">
-    <a class="brand" href="/"><img src="/audel-icon-144.png" width="22" height="22" alt="">Audel</a>
-    <span><a href="/privacy">Privacy policy</a> &middot; <a href="mailto:support@audel.ai">support@audel.ai</a></span>
-  </div>
-</footer>
+    <h2>Contact</h2>
+    <p>Caleb Shim<br><a href="mailto:support@audel.ai">support@audel.ai</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Caleb Shim</span>
+    <a href="/terms">Terms of service</a>
+    <a href="/privacy">Privacy policy</a>
+    <a href="/support">Support</a>
+  </footer>
+</div>
 </body>
 </html>
