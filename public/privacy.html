@@ -51,7 +51,7 @@
     <p>If you connect a bank, we use <a href="https://plaid.com/legal/#end-user-privacy-policy">Plaid</a> to read your account names, balances and transactions, and, for investment and retirement accounts, your holdings and investment transactions. Your bank login goes to Plaid and your bank, never to us. Plaid gives us an access token for each connection, which we store encrypted. Access is read-only: Audel can see your accounts but can't make payments, transfers or trades. Plaid's handling of your data is covered by its own privacy policy.</p>
 
     <h3>Payments</h3>
-    <p>If you subscribe, you pay through <a href="https://stripe.com/privacy">Stripe</a>, on a Stripe page. Your card details go to Stripe, never to us. We store only the ID Stripe gives your customer record and whether your subscription is active, and until when, so the app knows whether it's open to you. We give Stripe your name and email address, for receipts, and your Audel account ID, which links your payments to your account. Stripe's handling of your data is covered by its own privacy policy.</p>
+    <p>If you subscribe, you pay Apple through the App Store, with the payment method on your Apple Account. Apple processes the payment; your card details and billing address go to Apple, never to us. Apple tells us the subscription's status: which plan, whether it's active or renewing, and until when, with the IDs Apple gives the purchase. We store those, and a random ID the app attaches to the purchase so it belongs to your Audel account, so the app knows whether it's open to you. Apple's handling of your payment is covered by <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>.</p>
 
     <h3>Apple Health</h3>
     <p>If you connect a goal to Apple Health, Audel reads the specific data you allow, such as workouts, steps, sleep or nutrition, and stores the values it needs to track that goal. Audel only reads Health data; it never writes to Apple Health. Health data is used to show your progress and, when you ask the assistant about it, the values it needs to answer are sent to the AI providers that write its replies (see How the assistant works). Those conversations are included in the copies we review to improve Audel, without your name or email, unless you turn that off (see Improving Audel). Health data is never used for advertising, never sold, and never shared with data brokers.</p>
@@ -82,12 +82,11 @@
     <ul>
       <li>Google Cloud, which hosts our servers and database in the United States</li>
       <li>Plaid, for bank and investment connections</li>
-      <li>Stripe, for subscription payments</li>
       <li>Google and Anthropic, for the assistant's replies, and Anthropic to help review conversations (see Improving Audel)</li>
       <li>Brave, for web searches the assistant makes</li>
       <li>TypeSafe, for suggesting which budget a transaction belongs in</li>
       <li>Open Food Facts, for food barcode and name lookups</li>
-      <li>Google and Apple, for signing in, and Apple, for delivering notifications</li>
+      <li>Google and Apple, for signing in, and Apple, for subscription payments and delivering notifications</li>
     </ul>
     <p>We don't sell your personal information or share it for advertising. We may disclose information if the law requires it.</p>
 
@@ -95,7 +94,7 @@
     <p>Data is encrypted in transit and at rest. Our database sits on a private network with no public address, and our servers sign in to it without a stored password. Bank access tokens and Apple sign-in tokens are encrypted with a separate key. Each account's data is isolated at the database level, so one user can't read another's.</p>
 
     <h2>How long we keep it</h2>
-    <p>We keep your data for as long as you have an account. When you delete your account, your data is removed from our database immediately, your bank connections are revoked at Plaid, Audel's access to your Apple sign-in is revoked at Apple, and your subscription is cancelled and your customer record deleted at Stripe, so you're never charged again. Stripe keeps records of past payments as the law requires. Copies in our encrypted backups expire within 7 days. Server logs are kept for 30 days. Conversation copies made for review are deleted after 30 days.</p>
+    <p>We keep your data for as long as you have an account. When you delete your account, your data is removed from our database immediately, your bank connections are revoked at Plaid, and Audel's access to your Apple sign-in is revoked at Apple. Deleting your account doesn't cancel an App Store subscription, because Apple manages it: cancel it in your iPhone's Settings (tap your name, then Subscriptions) so you aren't charged again. Apple keeps records of your purchases under its own policy. Copies in our encrypted backups expire within 7 days. Server logs are kept for 30 days. Conversation copies made for review are deleted after 30 days.</p>
 
     <h2>Your choices</h2>
     <ul>
