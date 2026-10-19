@@ -11,9 +11,7 @@
 <meta property="og:image" content="/audel-icon.png">
 <title>Audel</title>
 <meta name="description" content="Audel sets up your money, goals and schedule when you ask, then keeps them up to date from your accounts and apps.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,300..600&family=EB+Garamond:wght@400..600&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400..700&family=Courier+Prime:wght@400;700&family=Lora:wght@400..600&family=Bitter:wght@400..600&family=DM+Serif+Display&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@400..600&family=Archivo:wght@400..600&display=swap">
+<link rel="stylesheet" href="/fonts/home.css">
 
 <style>
 /* Layout: one white sheet, the way the app is: ruled sections, no cards. The
@@ -34,8 +32,11 @@
 
   --label:  #000000;
   --prose:  #4A4D4C;
-  --meta:   #7A7A7F;
-  --quiet:  #B4B4B8;
+  /* WCAG AA on every ground the page uses: --meta is text, 5.30:1 on the
+     canvas and 4.84:1 on --sunk. --quiet is only ever a graphic (the typing
+     dots, an unticked ring), so it needs 3:1 and has 3.26:1; text never uses it. */
+  --meta:   #6B6B70;
+  --quiet:  #8E8E93;
 
   --rule-section: rgba(20, 53, 42, .16);
   --rule-faint:   rgba(20, 53, 42, .11);
@@ -315,6 +316,21 @@ header .wrap { height: 100%; display: flex; align-items: center; justify-content
   padding: clamp(60px, 12vh, 130px) 24px clamp(22px, 4vh, 44px);
   background: linear-gradient(transparent, rgba(255, 255, 255, .62) 52%, rgba(255, 255, 255, .95) 100%);
 }
+/* WCAG 2.2.2: the montage moves for longer than five seconds, so it can be
+   paused. Glass like the header, in the corner, above the fade. */
+.motion-toggle {
+  position: absolute; z-index: 6; right: 16px; bottom: 16px;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; padding: 0; cursor: pointer;
+  color: var(--label); background: rgba(255, 255, 255, .72);
+  border: 1px solid var(--rule-section);
+  backdrop-filter: saturate(1.6) blur(12px); -webkit-backdrop-filter: saturate(1.6) blur(12px);
+}
+.motion-toggle:hover { background: rgba(255, 255, 255, .92); }
+.motion-toggle svg { width: 16px; height: 16px; }
+.motion-toggle .i-play { display: none; }
+.motion-toggle[aria-pressed="true"] .i-play { display: block; }
+.motion-toggle[aria-pressed="true"] .i-pause { display: none; }
 .masthead .cue { width: 1px; height: clamp(28px, 5vh, 46px); background: linear-gradient(rgba(20,18,12,.34), transparent); }
 
 /* The page still needs a heading, and the montage is it: the phrase is the only
@@ -531,7 +547,7 @@ h2 em { font-style: normal; color: var(--pine); }
 .ready .c-send .up { opacity: 1; transform: none; }
 .sending .c-send { transform: scale(.9); transition: transform .12s; }
 .c-line { flex: 1; min-width: 0; padding: calc(4 * var(--pt)) 0 calc(4 * var(--pt)) calc(2 * var(--pt)); line-height: 1.3; }
-.c-line .ph { color: var(--quiet); }
+.c-line .ph { color: var(--meta); }
 .c-line .chip { display: inline-block; width: calc(20 * var(--pt)); height: calc(24 * var(--pt)); border-radius: 4px; background: #FBF8EF; border: 1px solid var(--rule-faint); vertical-align: middle; margin-right: calc(6 * var(--pt)); }
 .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--pine); vertical-align: -.2em; margin-left: 1px; animation: caret 1.05s steps(1, end) infinite; }
 @keyframes caret { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
@@ -791,6 +807,10 @@ footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); 
       <div class="grain"></div>
       <h1 class="sr-only">Reach your goals</h1>
       <div class="card"><span class="cue" aria-hidden="true"></span></div>
+      <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause animation" title="Pause animation" hidden>
+        <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="2.5" width="3" height="11" rx="1" fill="currentColor"/><rect x="9.5" y="2.5" width="3" height="11" rx="1" fill="currentColor"/></svg>
+        <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4a.8.8 0 0 0 1.2.7l8.3-5.2a.8.8 0 0 0 0-1.4L5.7 2.1a.8.8 0 0 0-1.2.7Z" fill="currentColor"/></svg>
+      </button>
     </div>
   </section>
 
@@ -1281,7 +1301,7 @@ footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); 
 <footer>
   <div class="wrap">
     <span class="brand"><img class="appicon" src="/audel-icon-144.png" width="26" height="26" alt="">Audel</span>
-    <p class="legal"><a href="/privacy">Privacy policy</a> &middot; <a href="mailto:support@audel.ai">support@audel.ai</a><br>Audel provides financial information, not financial advice. Figures shown are sample data.</p>
+    <p class="legal"><a href="/terms">Terms of service</a> &middot; <a href="/privacy">Privacy policy</a> &middot; <a href="/privacy/health">Consumer Health Data Privacy</a> &middot; <a href="/support">Support</a> &middot; <a href="mailto:support@audel.ai">support@audel.ai</a><br>Audel provides financial information, not financial advice. Figures shown are sample data.</p>
   </div>
 </footer>
 
@@ -1579,6 +1599,8 @@ footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); 
 
     var BEAT = 130;   /* one document, held */
     var timer = null;
+    var cw = 0, cd = 0;     /* the word and the document on screen now */
+    var paused = false;     /* the reader pressed pause */
 
     /* The word is the constant and the documents are what move: "reach" holds
        while all twelve cut under it, then "your" for twelve, then "goals".
@@ -1588,19 +1610,31 @@ footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); 
        and word on the inside reads as a cursor travelling along one page --
        which is a different effect, and not this one. */
     var run = function () {
-      var w = 0, d = 0;
-      show(w, d);
+      clearInterval(timer);
+      show(cw, cd);
       timer = setInterval(function () {
-        d++;
-        if (d >= DOCS.length) {
-          d = 0;
-          w = (w + 1) % WORDS.length;
+        cd++;
+        if (cd >= DOCS.length) {
+          cd = 0;
+          cw = (cw + 1) % WORDS.length;
         }
-        show(w, d);
+        show(cw, cd);
       }, BEAT);
     };
 
-    var stop = function () { clearInterval(timer); };
+    var stop = function () { clearInterval(timer); timer = null; };
+
+    /* Pause holds the frame that is up; play carries on from it. */
+    var toggle = document.getElementById("motion-toggle");
+    var setPaused = function (yes) {
+      paused = yes;
+      toggle.setAttribute("aria-pressed", yes ? "true" : "false");
+      toggle.title = yes ? "Play animation" : "Pause animation";
+      if (yes) { stop(); } else if (!document.hidden) { run(); }
+    };
+    if (toggle) {
+      toggle.addEventListener("click", function () { setPaused(!paused); });
+    }
 
     /* Fonts change metrics, so nothing can be measured until they have loaded. */
     var init = function () {
@@ -1610,6 +1644,8 @@ footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); 
            that matters in focus. The composition survives; only the motion goes. */
         show(WORDS.length - 1, 0);
       } else {
+        /* Only something that moves needs a pause button. */
+        if (toggle) toggle.hidden = false;
         run();
       }
     };
@@ -1626,8 +1662,8 @@ footer .wrap { display: grid; gap: 18px; font-size: .84rem; color: var(--meta); 
 
     /* Nothing should be cutting away behind a reader who has gone elsewhere. */
     document.addEventListener("visibilitychange", function () {
-      if (reduced.matches) return;
-      if (document.hidden) { stop(); } else { stop(); run(); }
+      if (reduced.matches || paused) return;
+      if (document.hidden) { stop(); } else { run(); }
     });
   }
 

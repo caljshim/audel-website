@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         { source: "/", destination: "/home.html" },
         { source: "/privacy", destination: "/privacy.html" },
+        // Washington's My Health My Data Act wants the consumer health data
+        // policy as its own page, linked from the homepage on its own.
+        { source: "/privacy/health", destination: "/privacy-health.html" },
         { source: "/terms", destination: "/terms.html" },
         { source: "/support", destination: "/support.html" },
         { source: "/plaid", destination: "/plaid.html" },
