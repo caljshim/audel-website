@@ -21,7 +21,7 @@
 
   <main class="doc">
     <h1>Consumer health data privacy policy</h1>
-    <p class="updated">Effective October 23, 2026</p>
+    <p class="updated">Effective October 24, 2026</p>
 
     <p>This policy covers the consumer health data that Caleb Shim ("we", "us") collects through Audel, as required by Washington's My Health My Data Act and similar laws in Nevada and Connecticut. It applies to everyone who uses Audel. Questions and requests go to <a href="mailto:support@audel.ai">support@audel.ai</a>.</p>
 
@@ -29,10 +29,11 @@
     <ul>
       <li><strong>Data you allow Audel to read from Apple Health</strong> for a goal you connect to it: steps; exercise minutes; active energy burned; workouts (the kind of workout, when it started and ended, and the app that recorded it); walking and running, cycling, swimming, wheelchair and downhill snow sports distances; sleep; mindful minutes; mood (State of Mind); resting heart rate; heart rate variability; weight; time in daylight; and nutrition: calories, protein, carbohydrates, total fat, fiber, sugar, water and alcoholic drinks.</li>
       <li><strong>Health goals and logs you enter yourself</strong>, such as a weight target, a sleep or mood check-in, or a meal you log, including the nutrition values Audel looks up for it.</li>
+      <li><strong>Progress photos</strong> you add to a goal's logs, which can show your body.</li>
       <li><strong>Your journal</strong>, if you use it: the mood you choose for a day (from awful to great) and the note you write. We treat both as health data, because mood is about your mental health.</li>
       <li><strong>What you tell the assistant</strong> about these things in a conversation.</li>
     </ul>
-    <p>We use this data only to show your progress toward the goals you set, to remind you about them, and to answer you when you chat with the assistant. Your journal is used only to show it back to you and, when you ask the assistant about it or ask it to log something, to answer you. We store it in Audel's database, process it on our servers to work out your progress, and show it back to you in the app. We don't use it for advertising, don't sell it, don't use it to train AI models, and leave conversations involving it out of the copies we review to improve Audel.</p>
+    <p>We use this data only to show your progress toward the goals you set, to remind you about them, and to answer you when you chat with the assistant. Your journal is used only to show it back to you and, when you ask the assistant about it or ask it to log something, to answer you. Progress photos are used only to show them back to you, on their logs and side by side over time. We store it in Audel's database (progress photos, in a private Google Cloud Storage bucket), process it on our servers to work out your progress, and show it back to you in the app. We don't use it for advertising, don't sell it, don't use it to train AI models, and leave conversations involving it out of the copies we review to improve Audel.</p>
 
     <h2 id="sources">Where it comes from</h2>
     <ul>
@@ -45,7 +46,7 @@
     <p>We share health data only with the service providers that process it for us, and only to provide what you asked for:</p>
     <ul>
       <li><strong>Google Cloud</strong>, which hosts our servers and database, stores all of it.</li>
-      <li><strong>Google (Gemini) and Anthropic (Claude)</strong>, the AI providers whose models write the assistant's replies: when you chat with the assistant, the one writing the reply receives the health data that reply needs, such as your progress toward a health goal, or the journal entries it reads when you ask about your journal or ask it to log something. They process it for us under their commercial API terms, which don't allow training on your data.</li>
+      <li><strong>Google (Gemini) and Anthropic (Claude)</strong>, the AI providers whose models write the assistant's replies: when you chat with the assistant, the one writing the reply receives the health data that reply needs, such as your progress toward a health goal, or the journal entries it reads when you ask about your journal or ask it to log something. A progress photo reaches them only when you open it and tap <em>Ask Audel about this</em>, and then only that photo. They process it for us under their commercial API terms, which don't allow training on your data.</li>
     </ul>
     <p>We share it with no one else and have no affiliates that receive it. We never sell it. No third party collects health data about your activity across other apps or websites through Audel.</p>
 

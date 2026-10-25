@@ -21,15 +21,15 @@
 
   <main class="doc">
     <h1>Privacy policy</h1>
-    <p class="updated">Effective October 23, 2026</p>
+    <p class="updated">Effective October 24, 2026</p>
 
     <div class="summary">
       <p>The short version</p>
       <ul>
         <li>Audel uses your data to run the app for you. It doesn't sell it, use it for targeted advertising, use it to train AI models, or track you across other apps.</li>
         <li>Bank connections are read-only. Audel can't move money.</li>
-        <li>Before the assistant first answers you, the app asks you to agree to your messages, and the data it needs to answer them, going to the AI providers it names. That includes your calendar events, if you connect your calendar.</li>
-        <li>We review conversations with the assistant, without your name or email, to find and fix its mistakes. Conversations involving health, and ones that read your calendar, are left out of those copies. You can turn this off in the app.</li>
+        <li>Before the assistant first answers you, the app asks you to agree to your messages, and the data it needs to answer them, going to the AI providers it names. That includes your calendar events and reminders, if you connect your calendar or Reminders.</li>
+        <li>We review conversations with the assistant, without your name or email, to find and fix its mistakes. Conversations involving health, and ones that read your calendar or reminders, are left out of those copies. You can turn this off in the app.</li>
         <li>Audel records which screens and features you use, never what you put into them, to see what's working and improve the app. You can turn this off in the app.</li>
         <li>Health data has its own policy: our <a href="/privacy/health">consumer health data privacy policy</a>.</li>
         <li>You can delete your account and everything in it from inside the app.</li>
@@ -64,12 +64,15 @@
 
     <h3 id="calendars">Calendars</h3>
     <p>If you connect your iPhone's calendars, Audel copies their events to your account so it can show them next to your schedule and the assistant can see when you are busy. For each event we store the title, start and end times, whether it lasts all day, the location, and the name and color of its calendar, for the 7 days before today through the 60 days after. We do not store event notes or attendees. We delete these copies when you disconnect your calendar, when you turn off Show my calendars in Audel, and when you delete your account. The assistant looks at them only when you ask about your time or schedule, or when you ask it to create a timed event and it checks for a clash, and only after you have agreed to the AI providers in the assistant's consent screen. When it does, the events it needs are sent to the AI provider writing the reply. Conversations where the assistant used your calendar events are left out of the copies we review to improve Audel. Audel also writes the events you create with it into its own calendar named "Audel" on your iPhone, in iCloud if you have it and otherwise on your iPhone; you can delete that calendar in the Calendar app.</p>
+    <h3 id="reminders">Reminders</h3>
+    <p>If you connect your iPhone's Reminders, Audel copies your dated reminders to your account so they appear in your schedule and today's to-do. For each reminder we store its title, its due date and time, whether it is done, whether it repeats, and the name and color of its list, for reminders due from 30 days before today through 60 days after, and ones you completed in the last 7 days. We do not store reminders without a due date, or a reminder's notes, links, location, alerts, priority, tags, subtasks or attachments, and you choose which lists are included. When you tap a reminder in Audel to tick it off, the app marks it done in Reminders on your iPhone; that is the only change Audel makes to your reminders. We delete these copies when you stop showing Reminders, when you turn off Show my reminders in Audel, when you sign out on that iPhone, and when you delete your account. The assistant can read them, but never change them, when you ask about your schedule or to-dos, and only after you have agreed to the AI providers in the assistant's consent screen; when it does, the reminders it needs are sent to the AI provider writing the reply. Conversations where the assistant read your reminders are left out of the copies we review to improve Audel.</p>
 
     <h3>Location</h3>
     <p>If you set up a goal that counts visits to a place, such as the gym, your iPhone watches for arrivals at the place you choose. The place's coordinates stay on your iPhone, stored encrypted in its Keychain; we don't receive them. When you arrive, Audel sends us only that you arrived, and when. Places that provide health care, such as hospitals and pharmacies, can't be chosen.</p>
 
     <h3>Photos, camera and voice</h3>
     <p>Photos you attach to a chat with the assistant are uploaded and stored with your account so the assistant can read them, and are sent to the AI providers to answer you. Before a photo is stored, we remove its metadata, including the location it was taken. Voice input is transcribed on your iPhone; we receive the text, not the audio.</p>
+    <p id="progress-photos">Progress photos you add to a goal's logs are stored privately with your account, in our database or in a private Google Cloud Storage bucket that can't be reached from the internet; the app loads them only through your signed-in account. Each one is resized on your iPhone and its metadata, including the location it was taken, is removed before it's stored. Progress photos can show your body, so we treat them as health data. The assistant doesn't see them: a progress photo is sent to the AI providers only when you open it and tap <em>Ask Audel about this</em>, and then only that photo, with the message you send. They're never used for analytics or advertising and never included in the copies we review to improve Audel. Deleting a photo, the log it's on, or your account deletes it. An account can keep up to 500.</p>
 
     <h3>Notifications</h3>
     <p>If you allow notifications, your iPhone gives us a push token, which we store with your account and use only to send you Audel's notifications through Apple's push notification service.</p>
@@ -83,7 +86,7 @@
 
     <h2 id="assistant">How the assistant works</h2>
     <p>The first time you open the assistant, the app tells you what is sent where, naming Google (Gemini) and Anthropic (Claude), whose models write the replies, Brave, for web searches, and TypeSafe, which helps sort transactions and read your answers. It asks you to agree, and we record when you agreed and which wording you agreed to. Until you do, the assistant doesn't answer and Audel doesn't send your data to any AI provider. You can take your agreement back at any time under Account &amp; sign-in.</p>
-    <p>When you message the assistant, your message, any photo you attach, and the relevant parts of your Audel data (for example, the goals, transactions, balances, calendar events, journal entries or Health values it needs to answer) are sent to the AI provider that writes the reply: <a href="https://policies.google.com/privacy">Google (Gemini)</a> or <a href="https://www.anthropic.com/legal/privacy">Anthropic (Claude)</a>. We use their paid APIs, under their commercial API terms, which don't allow training on your data. When the assistant looks something up on the web, the search terms are sent to <a href="https://search.brave.com/help/privacy-policy">Brave Search</a>. We keep your chat history so you can see past conversations.</p>
+    <p>When you message the assistant, your message, any photo you attach, and the relevant parts of your Audel data (for example, the goals, transactions, balances, calendar events, reminders, journal entries or Health values it needs to answer) are sent to the AI provider that writes the reply: <a href="https://policies.google.com/privacy">Google (Gemini)</a> or <a href="https://www.anthropic.com/legal/privacy">Anthropic (Claude)</a>. We use their paid APIs, under their commercial API terms, which don't allow training on your data. When the assistant looks something up on the web, the search terms are sent to <a href="https://search.brave.com/help/privacy-policy">Brave Search</a>. We keep your chat history so you can see past conversations.</p>
     <p><a href="https://typesafe.ai">TypeSafe</a> receives:</p>
     <ul>
       <li>a new transaction's merchant, amount, date and bank category, with the names of your budgets and examples of what you've put in each (kinds of spending and merchant names), to suggest which budget it belongs in;</li>
@@ -96,7 +99,7 @@
     <h2 id="improving-audel">Improving Audel</h2>
     <p>To find where the assistant got something wrong and fix it, we review conversations with it. This is on unless you turn it off, and you can turn it off at any time: open your profile, tap Account &amp; sign-in, and switch off <em>Improve Audel with my conversations</em>. Your chat history is still kept so you can see it.</p>
     <p>Each night, the previous day's conversations of people who haven't turned it off are copied, without your name or email, under a coded label instead. The label is a keyed code that stays the same from day to day, so we can follow a conversation across days, and only we can link it back to an account. The copies go to private storage in Google Cloud and to our encrypted review computer, where we read them with the help of Anthropic's Claude, through Anthropic's commercial API, which doesn't allow training on your data. We use them to find mistakes and improve Audel, and may turn a mistake into a test case built from made-up example data, never your own.</p>
-    <p>Conversations involving health are left out: any exchange where the assistant used your goals, journal, food logs, fitness or Apple Health data, along with the messages around it, isn't copied. Conversations that read your calendar are left out too. A health detail you mention in a conversation that's otherwise about something else, such as money, can still be included. Photos are never included. Message text can include other things the assistant used to answer, such as amounts. The copies are deleted within 30 days, including after you turn review off or delete your account.</p>
+    <p>Conversations involving health are left out: any exchange where the assistant used your goals, journal, food logs, fitness or Apple Health data, along with the messages around it, isn't copied. Conversations that read your calendar or reminders are left out too. A health detail you mention in a conversation that's otherwise about something else, such as money, can still be included. Photos are never included, and a conversation in which you showed the assistant a progress photo is left out entirely. Message text can include other things the assistant used to answer, such as amounts. The copies are deleted within 30 days, including after you turn review off or delete your account.</p>
 
     <h2>Who processes your data</h2>
     <p>We share data only with the service providers that run Audel for us, and only what each needs:</p>
@@ -120,8 +123,8 @@
 
     <h2>How long we keep it</h2>
     <p>We keep your data for as long as you have an account. If your account goes 30 days without access (no subscription after the free month, or after a subscription ends), we remove its bank connections at Plaid; data already imported is kept for as long as you have an account. If an account has no activity for 24 months and no active subscription, we delete it, after telling you at least 30 days before, in the app and with a notification.</p>
-    <p>When you delete your account, your data, including any copied calendar events, is removed from our database immediately, your bank connections are revoked at Plaid, and Audel's access to your Apple sign-in is revoked at Apple. Deleting your account doesn't cancel an App Store subscription, because Apple manages it: cancel it in your iPhone's Settings (tap your name, then Subscriptions) so you aren't charged again. Apple keeps records of your purchases under its own policy.</p>
-    <p>Copies in our encrypted backups expire within 7 days. Server logs and error reports are kept for 30 days in Google Cloud. Conversation copies made for review are deleted within 30 days. Records of which features you use are kept for as long as you have an account, unless you turn them off, which deletes them.</p>
+    <p>When you delete your account, your data, including any copied calendar events and reminders, is removed from our database immediately, your bank connections are revoked at Plaid, and Audel's access to your Apple sign-in is revoked at Apple. Deleting your account doesn't cancel an App Store subscription, because Apple manages it: cancel it in your iPhone's Settings (tap your name, then Subscriptions) so you aren't charged again. Apple keeps records of your purchases under its own policy.</p>
+    <p>Copies in our encrypted backups expire within 7 days, and a deleted progress photo stays recoverable in our storage for up to 7 days before it's gone for good. Server logs and error reports are kept for 30 days in Google Cloud. Conversation copies made for review are deleted within 30 days. Records of which features you use are kept for as long as you have an account, unless you turn them off, which deletes them.</p>
 
     <h2>Your choices</h2>
     <ul>
@@ -130,7 +133,9 @@
       <li><strong>What the assistant remembers:</strong> see, edit or delete memories under <em>What Audel remembers</em> in Settings, or switch off <em>Remember things about me</em>.</li>
       <li><strong>Disconnect a bank:</strong> in the app, open your profile, tap Connected accounts, press and hold one of the bank's accounts, then tap Disconnect. This removes the connection at Plaid and deletes that bank's accounts and transactions from Audel.</li>
       <li><strong>Calendars:</strong> in the app, go to Profile, then Calendars, then Disconnect to delete the copies of your events from Audel, or turn off Audel's access in your iPhone's Settings.</li>
+      <li><strong>Reminders:</strong> in the app, go to Profile, then Calendars, then Stop showing Reminders to delete the copies of your reminders from Audel, or turn off Audel's access in your iPhone's Settings.</li>
       <li><strong>Your journal:</strong> open a day in your journal and tap Delete this day to delete that day's mood and note.</li>
+      <li><strong>Progress photos:</strong> open a photo and tap the trash button to delete it, or press and hold a goal's Progress photos widget and choose Delete all photos.</li>
       <li><strong>Apple Health:</strong> turn off Audel's access in the Health app (tap your picture, then Apps, then Audel) or in your iPhone's Settings, or remove the goal that uses it.</li>
       <li><strong>Conversation review:</strong> switch off <em>Improve Audel with my conversations</em> under Account &amp; sign-in.</li>
       <li><strong>Which features you use:</strong> switch off <em>Share app usage to help improve Audel</em> under Account &amp; sign-in. We stop recording it and delete what was recorded.</li>
@@ -142,7 +147,7 @@
     <ul>
       <li><strong>Access</strong> the personal data we have about you, and get a copy of it in a portable format;</li>
       <li><strong>Correct</strong> data that's inaccurate;</li>
-      <li><strong>Delete</strong> your data, including copied calendar events (you can also disconnect your calendar or delete your account in the app);</li>
+      <li><strong>Delete</strong> your data, including copied calendar events and reminders (you can also disconnect your calendar or Reminders, or delete your account in the app);</li>
       <li><strong>Withdraw consent</strong> you've given, such as to the assistant's AI providers or to Apple Health access;</li>
       <li><strong>Opt out</strong> of conversation review and of records of which features you use.</li>
     </ul>
