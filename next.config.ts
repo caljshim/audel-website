@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
         // policy as its own page, linked from the homepage on its own.
         { source: "/privacy/health", destination: "/privacy-health.html" },
         { source: "/terms", destination: "/terms.html" },
+        // A plain-language guide to the arbitration section, linked from the
+        // app's opt-out row (2026-10-26).
+        { source: "/terms/arbitration", destination: "/terms-arbitration.html" },
         { source: "/support", destination: "/support.html" },
         { source: "/plaid", destination: "/plaid.html" },
         { source: "/plaid/:path*", destination: "/plaid.html" },
